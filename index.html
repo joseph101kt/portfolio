@@ -2,35 +2,73 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ Tailwind CSS -->
+    <!-- ✅ Compiled Tailwind CSS -->
     <link href="./dist/output.css" rel="stylesheet" />
 
-    <!-- ✅ React, ReactDOM, Babel -->
+    <!-- ✅ React + ReactDOM via UMD -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- ✅ Babel for JSX parsing -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   </head>
 
-  <body class="bg-gray-900 text-white font-sans p-6 min-h-screen">
+  <body class="bg-gray-900 text-white font-sans p-6">
+    <!-- ✅ Mount point for React -->
     <div id="root"></div>
 
+    <!-- ✅ Main React app in JSX -->
     <script type="text/babel">
+
+      function Nav() {
+        return <nav className="text-yellow-400 text-xl font-bold mb-4">Hello from Nav</nav>;
+      }
+
+
+
+      function Hero() {
+        return <h1 className="text-4xl font-bold mb-4">Hello from Hero</h1>;
+      }
+
+
+
+      function About() {
+        return <h1 className="text-2xl mb-4">Hello from About Me</h1>;
+      }
+
+
+
+      function Project() {
+        return <h1 className="text-2xl mb-4">Hello from Project</h1>;
+      }
+
+
+
+      function Contact() {
+        return <h1 className="text-2xl mb-4">Hello from Contact</h1>;
+      }
+
+
+
+      function Footer() {
+        return <h1 className="text-xl text-gray-400 mt-10">Hello from Footer</h1>;
+      }
+
+      
+
       function App() {
         return (
-          <main className="text-center space-y-6">
-            <h1 className="text-5xl font-bold text-yellow-400">👋 Hello, I'm Joseph</h1>
-            <p className="text-lg max-w-xl mx-auto text-gray-300">
-              This is my portfolio built with React, Babel, and Tailwind — no build tools required.
-            </p>
-            <p className="bg-gray-800 p-4 rounded shadow-md">This has padding and shadow.</p>
-            <h2 className="text-xl text-blue-400">Welcome to my page!</h2>
-            <button className="bg-yellow-400 text-black px-6 py-2 rounded hover:bg-yellow-300 transition">
-              Contact Me
-            </button>
-          </main>
+          <div>
+            <Nav />
+            <Hero />
+            <About />
+            <Project />
+            <Contact />
+            <Footer />
+          </div>
         );
       }
 
