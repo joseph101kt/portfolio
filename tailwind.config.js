@@ -1,14 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
-    "./index.html", "./src/**/*.{js,ts,jsx,tsx}",
-    './*.html', // Scans all HTML files in the root folder
-    './src/**/*.html', // Scans HTML files in the src folder and its subfolders
-    './src/**/*.js', // Scans JS files if you are dynamically adding classes
-    './src/**/*.jsx'
+    "./index.html",
+    './*.html'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        text:{
+          light: '#0f0f0b',
+          dark: '#f4f4f0',
+        },
+        primary: {
+          light: '#e1e156',
+          dark: '#e1e156',
+        },
+        secondary: {
+          light: '#a857e6',
+          dark: '#a857e6',
+        },
+        accent: {
+          light: '#b1b4c4',
+          dark: '#b1b4c4',
+        },
+        neutral: {
+          light: '#fafaf9',
+          dark: '#171717',
+        },
+      },
+    }
   },
   plugins: [],
 }
