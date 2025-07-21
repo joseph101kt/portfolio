@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="./dist/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./animations.css" />
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body class="bg-neutral text-text font-sans p-0">
+
+    <div id="root"></div>
+    
+    <script type="text/babel">
+
+      function Nav() {
+        const containerStyle = {
+          backgroundImage: "url('./assets/herosection.png')"
+        };
+
+        return (
+          <header className="fixed top-0 w-full h-14 z-50 bg-neutral-900/60 backdrop-blur-lg border-b border-neutral-800 transition-all duration-300">
+            <div className="container mx-auto px-6 flex justify-between items-center h-full">
+              {/* Site Title / Logo */}
+              <a href="#hero" className="text-xl font-bold text-white hover:text-primary-light transition-colors duration-300">
+                Joseph Kakkassery
+              </a>
+
+              {/* Navigation Links */}
+              <nav className="hidden md:flex items-center space-x-6">
+                <a href="#about" className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300">
+                  About
+                </a>
+                <a href="#tech-stack" className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300">
+                  Tech Stack
+                </a>
+                <a href="#certifications" className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300">
+                  Certifications
+                </a>
+                <a href="#contact" className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300">
+                  Contact
+                </a>
+              </nav>
+            </div>
+          </header>
+        );
+      }
+
+      function Hero() {
+        return(
+          <section id="hero" className=" relative min-h-screen flex flex-col justify-center items-center text-center bg-neutral-900 text-white">
+            <div className="absolute w-full h-full z-20 bg-white/5 backdrop-blur-md">
+              
+              {/* Glowing Blobs */}
+              <img
+                src="./assets/blob_purple.svg"
+                alt="Purple Blob"
+                className="absolute top-1/4 left-60 w-96 h-96 md:w-96 md:h-96 opacity-50 blur-lg animate-[spin_30s_linear_infinite,_updown_15s_ease-in-out_infinite_alternate] drop-shadow-lg"
+              />
+              <img
+                src="./assets/blob_violet.svg"
+                alt="Violet Blob"
+                className="absolute bottom-1/4 right-1/4 w-32 h-32 md:w-48 md:h-48 opacity-50 blur-lg animate-[spin_25s_linear_infinite_reverse,_updown_18s_ease-in-out_infinite_alternate] drop-shadow-lg"
+              />
+              <img
+                src="./assets/blob_grey.svg"
+                alt="Grey Blob"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 md:w-72 md:h-72 opacity-50 blur-lg animate-[spin_40s_linear_infinite,_updown_12s_ease-in-out_infinite_alternate] drop-shadow-lg"
+              />
+
+            </div>
+            
+            
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight z-30">
+              Frontend Developer with a Marketer's Mindset
+            </h1>
+
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mt-6 z-30">
+              I build fast, SEO-optimized websites that don't just look good — they drive traffic and conversions. Certified by Google and HubSpot in digital marketing.
+            </p>
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 z-30">
+              <a href="#certifications" className="bg-yellow-400 text-black font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-yellow-300 transition">
+                View My Certificates
+              </a>
+              <a href="#contact"className="border border-white text-white z-30 px-6 py-3 rounded-2xl hover:bg-white hover:text-black transition">
+                Let's Talk
+              </a>
+            </div>
+
+            <div className="mt-16 animate-bounce text-gray-400 z-30">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+          </section>
+        )
+      }
+
+      function About() {
+        return (
+          <section id="about" className="min-h-screen bg-neutral-900 text-white px-6 py-16 md:py-24 flex flex-col items-center">
+            <div className="container mx-auto relative z-20">
+              <h2 className="text-3xl md:text-4xl font-bold max-w-4xl mx-auto text-center leading-tight">
+                I am a frontend developer with a marketer's mindset, dedicated to building websites that don't just look good—they drive results.
+              </h2>
+
+              <div className="mt-16 max-w-3xl mx-auto">
+                <h3 className="text-xl md:text-2xl font-semibold mb-6 text-gray-300">
+                  What I Bring to the Table:
+                </h3>
+                <ul className="space-y-6 md:space-y-8 text-lg">
+                  {/* Card 1: Full-Stack Skills */}
+                  <li className="bg-white/5 p-6 rounded-xl border border-neutral-700 shadow-lg hover:border-secondary-light hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                    <strong className="font-semibold text-white block mb-2">Full-Stack Skills:</strong>
+                    I build responsive web apps with a modern stack including <span className="font-mono text-gray-400">React</span>, <span className="font-mono text-gray-400">Tailwind</span>, and <span className="font-mono text-gray-400">Django</span>.
+                  </li>
+
+                  {/* Card 2: Visual & Functional Design */}
+                  <li className="bg-white/5 p-6 rounded-xl border border-neutral-700 shadow-lg hover:border-secondary-light hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                    <strong className="font-semibold text-white block mb-2">Visual & Functional Design:</strong>
+                    My style is modern and textured, with a passion for <em className="text-gray-400">glassmorphism</em>, soft layering, and subtle animation.
+                  </li>
+
+                  {/* Card 3: Strategic SEO & Marketing */}
+                  <li className="bg-white/5 p-6 rounded-xl border border-neutral-700 shadow-lg hover:border-secondary-light hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                    <strong className="font-semibold text-white block mb-2">Strategic SEO & Marketing:</strong>
+                    I am certified in <em className="text-gray-400">SEO</em>, <em className="text-gray-400">digital marketing</em>, and <em className="text-gray-400">paid advertising</em>, ensuring every project is optimized for performance and conversions.
+                  </li>
+
+                  {/* Card 4: Self-Driven Learning */}
+                  <li className="bg-white/5 p-6 rounded-xl border border-neutral-700 shadow-lg hover:border-secondary-light hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                    <strong className="font-semibold text-white block mb-2">Self-Driven Learning:</strong>
+                    My foundational skills were built through self-study, including a recent completion of <em className="text-gray-400">CS50W</em>, demonstrating my commitment to continuous growth.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+
+      function Skills_Certificates() {
+        return (
+          <section className="min-h-screen bg-neutral-900 text-white px-6 py-16 md:py-24 flex flex-col items-center">
+            {/* Skills */}
+            <div id="tech-stack" className="mt-16 max-w-5xl w-full mx-auto">
+                <h2 className="text-3xl font-semibold mb-6 text-center text-primary-light">Tech Stack</h2>
+                <div className="overflow-hidden">
+                  <div className="flex flex-nowrap w-max animate-[marquee-right_40s_linear_infinite] items-center gap-6">
+                    {/* DUPLICATE YOUR ITEMS FOR THE SEAMLESS SCROLL */}
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">HTML</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">CSS / Tailwind</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">JavaScript / JSX</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">React</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Django</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Python</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">OpenCV / Haarcascade</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Pygame / Lua</div>
+                    {/* END OF SET 1 */}
+
+                    {/* BEGINNING OF DUPLICATED SET 2 */}
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">HTML</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">CSS / Tailwind</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">JavaScript / JSX</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">React</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Django</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Python</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">OpenCV / Haarcascade</div>
+                    <div className="flex-shrink-0 p-4 rounded-xl text-neutral-400 border border-neutral-700 hover:text-secondary-light hover:border-secondary-light transition-colors duration-300">Pygame / Lua</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Certifications */}
+              <div id="certifications" className="mt-16 w-full max-w-3xl mx-auto">
+                <h2 className="text-3xl font-semibold mb-6 text-center text-primary-light">Certifications</h2>
+                <div className="overflow-hidden">
+                  <div className="flex flex-nowrap w-max animate-[marquee-left_40s_linear_infinite] items-center gap-6">
+                    {/* FULL SET OF CERTIFICATES */}
+                    <img src="./assets/certificates/CS50x.png" alt="CS50x Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/CS50p.png" alt="CS50p Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/CS50SQL.png" alt="CS50SQL Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Fundamentals-of-digital-marketing.png" alt="Fundamentals of Digital Marketing Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Google-Ads-Measurement.png" alt="Google Ads Measurement Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Hubspot-SEO.png" alt="Hubspot SEO Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/paid-ads.png" alt="Paid Ads Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    
+                    {/* DUPLICATED SET */}
+                    <img src="./assets/certificates/CS50x.png" alt="CS50x Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/CS50p.png" alt="CS50p Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/CS50SQL.png" alt="CS50SQL Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Fundamentals-of-digital-marketing.png" alt="Fundamentals of Digital Marketing Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Google-Ads-Measurement.png" alt="Google Ads Measurement Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/Hubspot-SEO.png" alt="Hubspot SEO Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                    <img src="./assets/certificates/paid-ads.png" alt="Paid Ads Certificate" className="flex-shrink-0 h-[500px] p-4 border border-neutral-800 rounded-xl shadow-2xl grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300" />
+                  </div>
+                </div>
+              </div>
+
+          </section>
+        )
+      }
+
+      function Contact() {
+        return (
+          <section id="contact" className="bg-neutral-900 text-white py-24 px-6 md:px-12 flex flex-col items-center">
+            <div className="container mx-auto relative z-20 max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-bold text-center text-primary-light mb-6">
+                Get In Touch
+              </h2>
+              <p className="text-lg text-gray-400 text-center mb-12">
+                Have a project in mind, a question, or just want to say hello? Feel free to reach out!
+              </p>
+
+              <form className="bg-white/5 p-8 rounded-xl border border-neutral-700 shadow-lg" action="https://formspree.io/f/xjkogjga" method="POST">
+                <div className="mb-6">
+                  <label htmlFor="name" className="block text-lg font-medium text-white mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-secondary-light transition-all duration-200"
+                    placeholder="Your Name"
+                    required
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <label htmlFor="email" className="block text-lg font-medium text-white mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-secondary-light transition-all duration-200"
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <label htmlFor="message" className="block text-lg font-medium text-white mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-secondary-light transition-all duration-200 resize-y"
+                    placeholder="Tell me about your project or question..."
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-secondary-light text-black font-semibold px-6 py-3 rounded-xl shadow-lg hover:bg-secondary-light/80 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary-light focus:ring-offset-2 focus:ring-offset-neutral-900"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </section>
+        );
+      }
+
+      function Theme() {
+        return (
+          <button
+            id="theme-toggle"
+            onClick={toggleTheme}
+            className="fixed bottom-4 right-4 z-50 p-4 rounded-full bg-accent-light dark:bg-accent-dark text-text-dark dark:text-text-light drop-shadow-lg">
+            <div id="theme-icon-light" className="h-6 w-6 rounded-full bg-yellow-400"></div>         
+            <div id="theme-icon-dark" className="h-6 w-6 rounded-full bg-black hidden"></div>
+          </button> 
+        )
+      }
+      
+      function App() {
+        return (
+          <div>
+            <Nav />
+            <Hero />
+            <About />
+            <Skills_Certificates />
+            <Contact />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+
+    <script>
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        if (isDark) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.setItem('theme', 'light');
+        }
+        updateIcons();
+      }
+
+      // A function to update the icon visibility
+      function updateIcons() {
+        const lightIcon = document.getElementById('theme-icon-light');
+        const darkIcon = document.getElementById('theme-icon-dark');
+
+        if (document.documentElement.classList.contains('dark')) {
+          lightIcon.classList.add('hidden');
+          darkIcon.classList.remove('hidden');
+        } else {
+          lightIcon.classList.remove('hidden');
+          darkIcon.classList.add('hidden');
+        }
+      }
+
+      // Run on page load
+      (function () {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Apply the initial theme
+        if (storedTheme === 'dark' || (storedTheme === null && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        updateIcons(); // Call the updateIcons function on load
+      })();
+    </script>
+  </body>
+</html>
