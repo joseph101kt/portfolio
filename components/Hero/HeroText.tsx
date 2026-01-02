@@ -473,12 +473,12 @@ const HeroText = () => {
       </h1>
 
       {/* Static supporting line - always visible */}
-      <p className={`${taglineSize.sm} ${taglineSize.md} ${taglineSize.lg} ${taglineColor} max-w-3xl leading-relaxed font-light`}>
-        Crafting pixel-perfect interfaces and scalable architectures
-        <span className={`${subTaglineColor} block mt-2 ${subTaglineSize.sm} ${subTaglineSize.md} ${subTaglineSize.lg}`}>
-          that bridge design vision with technical reality.
-        </span>
-      </p>
+<p className={`${taglineSize.sm} ${taglineSize.md} ${taglineSize.lg} ${taglineColor} max-w-3xl leading-relaxed font-light`}>
+  Crafting engaging Frontend experiences optimized for SEO
+  <span className={`${subTaglineColor} block mt-2 ${subTaglineSize.sm} ${subTaglineSize.md} ${subTaglineSize.lg}`}>
+    With robust and scalable Backend systems
+  </span>
+</p>
     </div>
   );
 };
