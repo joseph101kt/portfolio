@@ -77,8 +77,8 @@ const CircleGlow: React.FC<{ source: GlowSource; maxRadius?: number }> = ({
       style={{
         position: "absolute",
         left: 0,
-    top: 0,
-    transform: `translate(${source.x - maxRadius}px, ${source.y - maxRadius}px)`,
+        top: 0,
+        transform: `translate(${source.x - maxRadius}px, ${source.y - maxRadius}px)`,
         width: size,
         height: size,
         borderRadius: "50%",
@@ -96,7 +96,6 @@ const CircleGlow: React.FC<{ source: GlowSource; maxRadius?: number }> = ({
   );
 };
 
-
 /* =========================
    Explosion Button
 ========================= */
@@ -105,11 +104,11 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
   children = "Explore My Work",
 }) => {
   const [phase, setPhase] = useState<"breathing" | "exploding">("breathing");
+  const [ready, setReady] = useState(false);
   const timeRef = useRef(0);
   const lastRef = useRef(0);
   const btnRef = useRef<HTMLButtonElement>(null);
-  const btnCenter = useRef({ x: 0, y: 0 });
-
+  const btnCenter = useRef<{ x: number; y: number } | null>(null);
 
   const { registerGlow, updateGlow, unregisterGlow, containerRef, gridBounds } =
     useGrid();
@@ -124,30 +123,36 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
       flash: `f-${uid}`,
     };
   }, []);
-useLayoutEffect(() => {
-  if (!btnRef.current || !containerRef.current) return;
 
-  const b = btnRef.current.getBoundingClientRect();
-  const c = containerRef.current.getBoundingClientRect();
+  useLayoutEffect(() => {
+    if (!btnRef.current || !containerRef.current) return;
 
-  btnCenter.current = {
-    x: b.left + b.width / 2 - c.left,
-    y: b.top + b.height / 2 - c.top,
-  };
-}, [gridBounds.width, gridBounds.height]);
+    const b = btnRef.current.getBoundingClientRect();
+    const c = containerRef.current.getBoundingClientRect();
 
+    btnCenter.current = {
+      x: b.left + b.width / 2 - c.left,
+      y: b.top + b.height / 2 - c.top,
+    };
 
+    // Register glows at correct position
+    registerGlow(ids.primary, {
+      x: btnCenter.current.x,
+      y: btnCenter.current.y,
+      color: "#6A6FFF",
+      radius: 120,
+      intensity: 1,
+    });
+    registerGlow(ids.w1, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#6AFFFF", radius: 0, intensity: 0 });
+    registerGlow(ids.w2, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#8B5CF6", radius: 0, intensity: 0 });
+    registerGlow(ids.w3, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#6A6FFF", radius: 0, intensity: 0 });
+    registerGlow(ids.flash, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#FFF", radius: 0, intensity: 0 });
 
-
-  useEffect(() => {
-    registerGlow(ids.primary, { x: 0, y: 0, color: "#6A6FFF", radius: 120, intensity: 1 });
-    registerGlow(ids.w1, { x: 0, y: 0, color: "#6AFFFF", radius: 0, intensity: 0 });
-    registerGlow(ids.w2, { x: 0, y: 0, color: "#8B5CF6", radius: 0, intensity: 0 });
-    registerGlow(ids.w3, { x: 0, y: 0, color: "#6A6FFF", radius: 0, intensity: 0 });
-    registerGlow(ids.flash, { x: 0, y: 0, color: "#FFF", radius: 0, intensity: 0 });
+    // Schedule ready state after current frame to avoid warning
+    requestAnimationFrame(() => setReady(true));
 
     return () => Object.values(ids).forEach(unregisterGlow);
-  }, []);
+  }, [registerGlow, unregisterGlow, ids, containerRef, btnRef]);
 
   useEffect(() => {
     let raf: number;
@@ -162,19 +167,19 @@ useLayoutEffect(() => {
         raf = requestAnimationFrame(tick);
         return;
       }
-const { x, y } = btnCenter.current;
+      if (!btnCenter.current) return; // skip animation until position known
+      const { x, y } = btnCenter.current;
 
-if (phase === "breathing") {
-  const p = (timeRef.current % 3) / 3;
-  const e = Math.sin(p * Math.PI);
-  updateGlow(ids.primary, {
-    x,
-    y,
-    radius: 120 + e * 100,
-    intensity: 1.3,
-  });
-}
- else {
+      if (phase === "breathing") {
+        const p = (timeRef.current % 3) / 3;
+        const e = Math.sin(p * Math.PI);
+        updateGlow(ids.primary, {
+          x,
+          y,
+          radius: 120 + e * 100,
+          intensity: 1.3,
+        });
+      } else {
         const max = Math.hypot(gridBounds.width, gridBounds.height);
         const wave = (
           id: string,
@@ -203,7 +208,6 @@ if (phase === "breathing") {
           setPhase("breathing");
         }
       }
-      
 
       raf = requestAnimationFrame(tick);
     };
@@ -215,22 +219,21 @@ if (phase === "breathing") {
   return (
     <button
       ref={btnRef}
-onClick={() => {
-  timeRef.current = 0;
-  setPhase("exploding");
-}}
-
+      onClick={() => {
+        timeRef.current = 0;
+        setPhase("exploding");
+      }}
       className="
-  px-8 py-4
-  bg-gray-900/50
-  backdrop-blur-sm
-  text-white
-  rounded-lg
-  border border-gray-700
-  box-border
-  hover:border-gray-600
-  transition-colors
-"
+        px-8 py-4
+        bg-gray-900/50
+        backdrop-blur-sm
+        text-white
+        rounded-lg
+        border border-gray-700
+        box-border
+        hover:border-gray-600
+        transition-colors
+      "
     >
       {children}
     </button>
@@ -275,30 +278,31 @@ const CanvasGrid: React.FC<{ rows: number; cols: number; size: number }> = ({
 const GridWithGlow: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-const DEFAULT_DIMS = { rows: 16, cols: 16, size: 50 };
+  const DEFAULT_DIMS = { rows: 16, cols: 16, size: 50 };
 
-const [dims, setDims] = useState(DEFAULT_DIMS);
+  const [dims, setDims] = useState(DEFAULT_DIMS);
+  const [isReady, setIsReady] = useState(false);
 
-useLayoutEffect(() => {
-  const compute = () => {
-    const size =
-      window.innerWidth < 640
-        ? 70
-        : window.innerWidth < 768
-        ? 60
-        : 50;
+  useLayoutEffect(() => {
+    const compute = () => {
+      const size =
+        window.innerWidth < 640
+          ? 70
+          : window.innerWidth < 768
+          ? 60
+          : 50;
 
-    const cols = Math.min(Math.ceil(window.innerWidth / size), 31);
-    const rows = Math.min(Math.ceil(window.innerHeight / size), 16);
+      const cols = Math.min(Math.ceil(window.innerWidth / size), 31);
+      const rows = Math.min(Math.ceil(window.innerHeight / size), 16);
 
-    setDims({ rows, cols, size });
-  };
+      setDims({ rows, cols, size });
+      setIsReady(true);
+    };
 
-  compute();
-  window.addEventListener("resize", compute);
-  return () => window.removeEventListener("resize", compute);
-}, []);
-
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
 
   /* -------------------------
      Glow store (imperative)
@@ -310,10 +314,6 @@ useLayoutEffect(() => {
   ------------------------- */
   const [glowSnapshot, setGlowSnapshot] = useState<GlowSource[]>([]);
   const framePending = useRef(false);
-
-
-
-
 
   /* -------------------------
      RAF-batched flush
@@ -368,48 +368,46 @@ useLayoutEffect(() => {
   return (
     <GridContext.Provider value={context}>
       <div className="relative w-full h-screen overflow-hidden bg-[#1A2138B3]">
-  <div
-    ref={containerRef}
-    className="absolute inset-0"
-    style={{
-      width: `${dims.cols * dims.size}px`,
-      height: `${dims.rows * dims.size}px`,
-    }}
-  >
-    {/* Glow */}
-<div
-  className="absolute inset-0 pointer-events-none"
-  style={{
-    contain: "strict",
-    isolation: "isolate",
-    willChange: "transform",
-  }}
->
-{glowSnapshot.map((g) => (
-  <CircleGlow
-    key={g.id}
-    source={g}
-    maxRadius={g.id === "cursor" ? 220 : g.radius}
-  />
-))}
-    </div>
+        <div
+          ref={containerRef}
+          className="absolute inset-0"
+          style={{
+            width: `${dims.cols * dims.size}px`,
+            height: `${dims.rows * dims.size}px`,
+            opacity: isReady ? 1 : 0,
+            transition: 'opacity 0.15s ease-in',
+          }}
+        >
+          {/* Glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              contain: "strict",
+              isolation: "isolate",
+              willChange: "transform",
+            }}
+          >
+            {glowSnapshot.map((g) => (
+              <CircleGlow
+                key={g.id}
+                source={g}
+                maxRadius={g.id === "cursor" ? 220 : g.radius}
+              />
+            ))}
+          </div>
 
-    {/* Grid */}
-    <div className="absolute inset-0 z-10">
-      <CanvasGrid {...dims} />
-      {children}
-    </div>
-  </div>
+          {/* Grid */}
+          <div className="absolute inset-0 z-10">
+            <CanvasGrid {...dims} />
+            {isReady && children}
+          </div>
+        </div>
 
-  {!isTouch && <SmoothCursor />}
-</div>
-
-
-        
+        {!isTouch && isReady && <SmoothCursor />}
+      </div>
     </GridContext.Provider>
   );
 };
-
 
 /* =========================
    Smooth Cursor
@@ -437,19 +435,18 @@ const SmoothCursor: React.FC = () => {
 
   useEffect(() => {
     let raf: number;
- const tick = () => {
-  pos.current.x += (target.current.x - pos.current.x) * 0.3;
-  pos.current.y += (target.current.y - pos.current.y) * 0.3;
+    const tick = () => {
+      pos.current.x += (target.current.x - pos.current.x) * 0.3;
+      pos.current.y += (target.current.y - pos.current.y) * 0.3;
 
-  // ✅ Fixed line: update only position and intensity
-  updateGlow("cursor", {
-    x: pos.current.x,
-    y: pos.current.y,
-    intensity: 1,
-  });
+      updateGlow("cursor", {
+        x: pos.current.x,
+        y: pos.current.y,
+        intensity: 1,
+      });
 
-  raf = requestAnimationFrame(tick);
-};
+      raf = requestAnimationFrame(tick);
+    };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
@@ -457,7 +454,4 @@ const SmoothCursor: React.FC = () => {
   return null;
 };
 
-
-
 export default GridWithGlow;
-
