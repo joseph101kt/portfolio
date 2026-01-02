@@ -1,12 +1,46 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 
+// ========================================
+// 🎨 DESIGN VARIABLES - Easy Configuration
+// ========================================
+const DESIGN_CONFIG = {
+  // Text sizes (responsive)
+fontSize: {
+  sm: 'text-4xl',           // default mobile
+  md: 'md:text-5xl',        // tablet
+  lg: 'lg:text-7xl',        // desktop
+},
+taglineSize: {
+  sm: 'text-xs',
+  md: 'md:text-md',
+  lg: 'lg:text-lg',
+},
+subTaglineSize: {
+  sm: 'text-xs',
+  md: 'md:text-sm',
+  lg: 'lg:text-md',
+},
+
+  
+  // Animation timing
+  initialDelay: 300,     // Wait before starting animation (ms)
+  
+  // Colors
+  primaryColor: 'text-purple-400',
+  secondaryColor: 'text-white',
+  taglineColor: 'text-gray-400',
+  subTaglineColor: 'text-gray-500',
+};
+// ========================================
+
 const HeroText = () => {
   const [displayText, setDisplayText] = useState('');
   const [staticText, setStaticText] = useState('');
   const [showUnderline, setShowUnderline] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<'phase1' | 'phase2' | 'phase3' | 'complete'>('phase1');
+  const [isItalic, setIsItalic] = useState(false);
   const prefersReducedMotion = useRef(false);
   const hasAnimated = useRef(false);
 
@@ -20,12 +54,12 @@ const HeroText = () => {
   // Character substitution maps for scrambling effect
   const getScrambleChar = (char: string): { char: string; font: string } => {
     const scrambleMap: Record<string, string[]> = {
-      'F': ['f', 'F', 'E', 'P', 'ƒ', '₣'],
+      'f': ['f', 'F', 'E', 'P', 'ƒ', '₣'],
       'r': ['r', 'R', 'P', 'K', 'Я', 'ɾ'],
       'o': ['o', 'O', '0', 'Q', 'Ø', '◯'],
       'n': ['n', 'N', 'M', 'H', 'И', 'η'],
       't': ['t', 'T', 'I', 'L', '†', 'τ'],
-      'B': ['b', 'B', 'h', 'P', 'ß', 'β'],
+      'b': ['b', 'B', 'h', 'P', 'ß', 'β'],
       'a': ['a', 'A', 'e', '4', 'α', 'Λ'],
       'c': ['c', 'C', 'e', 'G', '¢', 'ς'],
       'k': ['k', 'K', 'R', 'X', 'κ', '₭'],
@@ -267,6 +301,9 @@ const HeroText = () => {
     }
 
     const runAnimation = async () => {
+      // Initial delay to wait for parent component load
+      await new Promise(resolve => setTimeout(resolve, DESIGN_CONFIG.initialDelay));
+
       if (prefersReducedMotion.current) {
         // Reduced motion: simple fade transitions
         setDisplayText('front');
@@ -279,6 +316,7 @@ const HeroText = () => {
         setStaticText('');
         setCurrentPhase('complete');
         setShowUnderline(true);
+        setIsItalic(true);
         setAnimationComplete(true);
         return;
       }
@@ -311,6 +349,10 @@ const HeroText = () => {
       // Show underline and mark complete
       setCurrentPhase('complete');
       setShowUnderline(true);
+      
+      // Add italic effect after a brief moment
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setIsItalic(true);
       setAnimationComplete(true);
     };
 
@@ -332,6 +374,7 @@ const HeroText = () => {
         letterSpacing: '0.02em',
         fontWeight: 700,
         textTransform: 'uppercase' as const,
+        fontStyle: isItalic ? 'italic' : 'normal',
       };
     }
     return {
@@ -340,53 +383,101 @@ const HeroText = () => {
     };
   };
 
+  const { fontSize, taglineSize, subTaglineSize, primaryColor, secondaryColor, taglineColor, subTaglineColor } = DESIGN_CONFIG;
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center px-6">
+<div className="flex flex-col items-center justify-center h-full w-full text-center px-6">
       {/* Main headline with animation */}
-      <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tight">
+      <h1 className={`${fontSize.sm} ${fontSize.md} ${fontSize.lg} font-bold mb-8 tracking-tight`}>
         {/* Screen reader gets the final state */}
         <span className="sr-only">Full stack developer</span>
         
-        {/* Visual animation */}
+        {/* Visual animation - responsive layout */}
         <span aria-hidden="true" className="block">
+          {/* Mobile/Tablet: Two lines */}
+<span className="lg:hidden flex flex-col items-center gap-3">
+  <span 
+    className={`${primaryColor} transition-all duration-500 ${getFontClass()}`}
+    style={getFontStyle()}
+  >
+    {phase2Active ? (
+      <>
+        <StaggeredTransition
+          oldText={phase2Text.old}
+          newText={phase2Text.new}
+          onComplete={() => {}}
+        />
+        <span dangerouslySetInnerHTML={{ __html: staticText }} />
+      </>
+    ) : (
+      <span className="relative">
+        <span dangerouslySetInnerHTML={{ __html: displayText }} />
+        <span dangerouslySetInnerHTML={{ __html: staticText }} />
+        {showUnderline && (
           <span 
-            className={`text-purple-400 inline-block relative transition-all duration-300 ${getFontClass()}`}
-            style={getFontStyle()}
-          >
-            {phase2Active ? (
-              <>
-                <StaggeredTransition
-                  oldText={phase2Text.old}
-                  newText={phase2Text.new}
-                  onComplete={() => {}}
-                />
-                <span dangerouslySetInnerHTML={{ __html: staticText }} />
-              </>
-            ) : (
-              <span className="inline-block relative">
-                <span dangerouslySetInnerHTML={{ __html: displayText }} />
-                <span dangerouslySetInnerHTML={{ __html: staticText }} />
-                {showUnderline && (
-                  <span 
-                    className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-400 to-violet-500 transition-all duration-500 ${
-                      animationComplete ? 'w-full' : 'w-0'
-                    }`}
-                  />
-                )}
-              </span>
-            )}
-          </span>
+            className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-400 to-violet-500 transition-all duration-500 ${
+              animationComplete ? 'w-full' : 'w-0'
+            }`}
+          />
+        )}
+      </span>
+    )}
+  </span>
+  <span 
+    className={`${secondaryColor} transition-all duration-500 ${getFontClass()}`}
+    style={getFontStyle()}
+  >
+    developer
+  </span>
+</span>
+
+          {/* Desktop: One line */}
+{/* Desktop: One line */}
+<span className="hidden lg:flex lg:items-center lg:justify-center gap-2">
+  <span 
+    className={`${primaryColor} transition-all duration-500 ${getFontClass()}`}
+    style={getFontStyle()}
+  >
+    {phase2Active ? (
+      <>
+        <StaggeredTransition
+          oldText={phase2Text.old}
+          newText={phase2Text.new}
+          onComplete={() => {}}
+        />
+        <span dangerouslySetInnerHTML={{ __html: staticText }} />
+      </>
+    ) : (
+      <span className="relative">
+        <span dangerouslySetInnerHTML={{ __html: displayText }} />
+        <span dangerouslySetInnerHTML={{ __html: staticText }} />
+        {showUnderline && (
           <span 
-            className={`text-white transition-all duration-300 ${getFontClass()}`}
-            style={getFontStyle()}
-          > developer</span>
+            className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-400 to-violet-500 transition-all duration-500 ${
+              animationComplete ? 'w-full' : 'w-0'
+            }`}
+          />
+        )}
+      </span>
+    )}
+  </span>
+  <span 
+    className={`${secondaryColor} transition-all duration-500 ${getFontClass()}`}
+    style={getFontStyle()}
+  >
+    developer
+  </span>
+</span>
+
         </span>
       </h1>
 
       {/* Static supporting line - always visible */}
-      <p className="text-xl md:text-2xl text-gray-400 max-w-3xl leading-relaxed font-light">
+      <p className={`${taglineSize.sm} ${taglineSize.md} ${taglineSize.lg} ${taglineColor} max-w-3xl leading-relaxed font-light`}>
         Crafting pixel-perfect interfaces and scalable architectures
-        <span className="text-gray-500 block mt-2 text-lg">that bridge design vision with technical reality.</span>
+        <span className={`${subTaglineColor} block mt-2 ${subTaglineSize.sm} ${subTaglineSize.md} ${subTaglineSize.lg}`}>
+          that bridge design vision with technical reality.
+        </span>
       </p>
     </div>
   );

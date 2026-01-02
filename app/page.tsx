@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div>
       <GridWithGlow>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-3/8 left-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2">
         <HeroText/>
       </div>
       
