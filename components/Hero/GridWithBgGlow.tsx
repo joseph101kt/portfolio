@@ -9,6 +9,7 @@ import React, {
   useContext,
   useLayoutEffect,
 } from "react";
+import { v4 as uuidv4 } from "uuid"
 
 /* =========================
    Types
@@ -114,7 +115,7 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
     useGrid();
 
   const ids = useMemo(() => {
-    const uid = crypto.randomUUID();
+    const uid = uuidv4()
     return {
       primary: `p-${uid}`,
       w1: `w1-${uid}`,
