@@ -148,7 +148,7 @@ const HeroText = () => {
           clearInterval(interval);
           resolve();
         }
-      }, 50);
+      }, 30);
     });
   };
 
@@ -196,7 +196,7 @@ const HeroText = () => {
           clearInterval(interval);
           resolve();
         }
-      }, 50);
+      }, 30);
     });
   };
 
@@ -233,7 +233,7 @@ const HeroText = () => {
               idx === i ? { ...c, state: 'exiting' } : c
             )
           );
-        }, i * 50);
+        }, i * 25);
       });
 
       // Replace with new text after exit
@@ -255,7 +255,7 @@ const HeroText = () => {
                 idx === i ? { ...c, state: 'settled' } : c
               )
             );
-          }, i * 50);
+          }, i * 25);
         });
 
         // Complete transition
@@ -323,35 +323,35 @@ const HeroText = () => {
 
       // Phase 1: Identity Reveal - scramble both "front" AND "end" together
       setCurrentPhase('phase1');
-      await scrambleTextDual('front', 'end', 600, 1);
+      await scrambleTextDual('front', 'end', 400, 1);
       
       // Pause before phase 2
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 800));
 
       // Phase 2: Role Shift - transition from "front" to "back" (keeping "end")
       setCurrentPhase('phase2');
       setPhase2Text({ old: 'front', new: 'back' });
       setPhase2Active(true);
       
-      await new Promise(resolve => setTimeout(resolve, 1400));
+      await new Promise(resolve => setTimeout(resolve, 800));
       setPhase2Active(false);
       setDisplayText('back');
       setStaticText('end');
 
       // Pause before phase 3
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 400));
 
       // Phase 3: Scope Expansion - scramble entire "backend" into "full stack"
       setCurrentPhase('phase3');
       setStaticText(''); // Clear static text before scramble
-      await scrambleText('full stack', 700, 0.8);
+      await scrambleText('full stack', 600, 0.8);
 
       // Show underline and mark complete
       setCurrentPhase('complete');
       setShowUnderline(true);
       
       // Add italic effect after a brief moment
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 400));
       setIsItalic(true);
       setAnimationComplete(true);
     };
