@@ -159,67 +159,78 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
     return () => Object.values(ids).forEach(unregisterGlow);
   }, [registerGlow, unregisterGlow, ids, containerRef, btnRef]);
 
-  useEffect(() => {
-    let raf: number;
+useEffect(() => {
+  let raf: number;
 
-    const tick = (now: number) => {
-      if (!lastRef.current) lastRef.current = now;
-      const dt = (now - lastRef.current) / 1000;
-      lastRef.current = now;
-      timeRef.current += dt;
+  // Detect mobile/touch devices
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
 
-      if (!btnRef.current || !containerRef.current) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-      if (!btnCenter.current) return; // skip animation until position known
-      const { x, y } = btnCenter.current;
+  const intensityScale = isMobile ? 1.5 : 1; // Scale intensity 50% stronger on mobile
 
-      if (phase === "breathing") {
-        const p = (timeRef.current % 3) / 3;
-        const e = Math.sin(p * Math.PI);
-        updateGlow(ids.primary, {
+  const tick = (now: number) => {
+    if (!lastRef.current) lastRef.current = now;
+    const dt = (now - lastRef.current) / 1000;
+    lastRef.current = now;
+    timeRef.current += dt;
+
+    if (!btnRef.current || !containerRef.current) {
+      raf = requestAnimationFrame(tick);
+      return;
+    }
+    if (!btnCenter.current) return; // skip animation until position known
+    const { x, y } = btnCenter.current;
+
+    if (phase === "breathing") {
+      const p = (timeRef.current % 3) / 3;
+      const e = Math.sin(p * Math.PI);
+
+      // Scale only intensity on mobile
+      updateGlow(ids.primary, {
+        x,
+        y,
+        radius: 140 + e * 100,         // same radius range
+        intensity: 1.7 * intensityScale,
+      });
+    } else {
+      const max = Math.hypot(gridBounds.width, gridBounds.height);
+
+      const wave = (
+        id: string,
+        delay: number,
+        dur: number,
+        scale: number,
+        intensity: number
+      ) => {
+        const t = timeRef.current - delay;
+        if (t < 0 || t > dur) return updateGlow(id, { intensity: 0 });
+        const e = easeInOutSine(t / dur);
+        updateGlow(id, {
           x,
           y,
-          radius: 140 + e * 100,
-          intensity: 1.7,
+          radius: e * max * scale,               // same range
+          intensity: intensity * (1 - e) * intensityScale, // scale only
         });
-      } else {
-        const max = Math.hypot(gridBounds.width, gridBounds.height);
-        const wave = (
-          id: string,
-          delay: number,
-          dur: number,
-          scale: number,
-          intensity: number
-        ) => {
-          const t = timeRef.current - delay;
-          if (t < 0 || t > dur) return updateGlow(id, { intensity: 0 });
-          const e = easeInOutSine(t / dur);
-          updateGlow(id, {
-            x,
-            y,
-            radius: e * max * scale,
-            intensity: intensity * (1 - e),
-          });
-        };
+      };
 
-        wave(ids.w1, 0, 0.8, 1.2, 2.2);
-        wave(ids.w2, 0.1, 0.9, 1.1, 1.6);
-        wave(ids.w3, 0.2, 1.0, 1.0, 1.2);
+      wave(ids.w1, 0, 0.8, 1.2, 2.2);
+      wave(ids.w2, 0.1, 0.9, 1.1, 1.6);
+      wave(ids.w3, 0.2, 1.0, 1.0, 1.2);
 
-        if (timeRef.current > 1.2) {
-          timeRef.current = 0;
-          setPhase("breathing");
-        }
+      if (timeRef.current > 1.2) {
+        timeRef.current = 0;
+        setPhase("breathing");
       }
-
-      raf = requestAnimationFrame(tick);
-    };
+    }
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [phase]);
+  };
+
+  raf = requestAnimationFrame(tick);
+  return () => cancelAnimationFrame(raf);
+}, [phase, ids, updateGlow, gridBounds, phase]);
+
 
   return (
 <button
