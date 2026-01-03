@@ -303,26 +303,39 @@ const CanvasGrid: React.FC<{ rows: number; cols: number; size: number }> = ({
 const GridWithGlow: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+const GRID_COLS_BREAKPOINTS = [
+  { maxWidth: 640, cols: 10 },  // small screens
+  { maxWidth: 768, cols: 15 },  // medium screens
+  { maxWidth: 1024, cols: 20 }, // large screens
+  { maxWidth: Infinity, cols: 25 } // extra-large screens
+];
+
+
+
   const DEFAULT_DIMS = { rows: 16, cols: 16, size: 50 };
 
   const [dims, setDims] = useState(DEFAULT_DIMS);
   const [isReady, setIsReady] = useState(false);
 
   useLayoutEffect(() => {
-    const compute = () => {
-      const size =
-        window.innerWidth < 640
-          ? 70
-          : window.innerWidth < 768
-          ? 60
-          : 50;
+const compute = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-      const cols = Math.min(Math.ceil(window.innerWidth / size), 31);
-      const rows = Math.min(Math.ceil(window.innerHeight / size), 16);
+  // Pick columns based on breakpoint
+  const { cols } = GRID_COLS_BREAKPOINTS.find(b => width <= b.maxWidth)!;
 
-      setDims({ rows, cols, size });
-      setIsReady(true);
-    };
+  // Calculate cell size based on width and number of columns
+  const size = width / cols;
+
+  // Compute rows to fill height (add 1 to ensure full coverage)
+  const rows = Math.ceil(height / size) + 2;
+
+  setDims({ rows, cols, size });
+  setIsReady(true);
+};
+
+
 
     compute();
     window.addEventListener("resize", compute);

@@ -7,17 +7,17 @@ import { useState, useEffect, useRef } from 'react';
 const DESIGN_CONFIG = {
   // Text sizes (responsive)
 fontSize: {
-  sm: 'text-4xl',           // default mobile
-  md: 'md:text-5xl',        // tablet
+  sm: 'text-5xl',           // default mobile
+  md: 'md:text-6xl',        // tablet
   lg: 'lg:text-7xl',        // desktop
 },
 taglineSize: {
-  sm: 'text-xs',
+  sm: 'text-md',
   md: 'md:text-md',
   lg: 'lg:text-lg',
 },
 subTaglineSize: {
-  sm: 'text-xs',
+  sm: 'text-md',
   md: 'md:text-sm',
   lg: 'lg:text-md',
 },
@@ -29,8 +29,8 @@ subTaglineSize: {
   // Colors
   primaryColor: 'text-purple-400',
   secondaryColor: 'text-white',
-  taglineColor: 'text-gray-400',
-  subTaglineColor: 'text-gray-500',
+  taglineColor: 'text-gray-300',
+  subTaglineColor: 'text-gray-400',
 };
 // ========================================
 
@@ -110,7 +110,7 @@ const HeroText = () => {
               const charProgress = (index + 1) / targetText1.length;
               
               if (progress > charProgress * intensity) {
-                return `<span class="inline-block">${char}</span>`;
+                return `<span class="inline-block ">${char}</span>`;
               }
               
               const scrambled = getScrambleChar(char);
@@ -312,7 +312,7 @@ const HeroText = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
         setDisplayText('back');
         await new Promise(resolve => setTimeout(resolve, 1000));
-        setDisplayText('full stack');
+        setDisplayText('fullstack');
         setStaticText('');
         setCurrentPhase('complete');
         setShowUnderline(true);
@@ -344,7 +344,7 @@ const HeroText = () => {
       // Phase 3: Scope Expansion - scramble entire "backend" into "full stack"
       setCurrentPhase('phase3');
       setStaticText(''); // Clear static text before scramble
-      await scrambleText('full stack', 600, 0.8);
+      await scrambleText('fullstack', 600, 0.8);
 
       // Show underline and mark complete
       setCurrentPhase('complete');
@@ -386,18 +386,18 @@ const HeroText = () => {
   const { fontSize, taglineSize, subTaglineSize, primaryColor, secondaryColor, taglineColor, subTaglineColor } = DESIGN_CONFIG;
 
   return (
-<div className="flex flex-col items-center justify-center h-full w-full text-center px-6">
+<div className="flex flex-col items-center justify-center h-full w-full text-center px-6 py-12">
       {/* Main headline with animation */}
-      <h1 className={`${fontSize.sm} ${fontSize.md} ${fontSize.lg} font-bold mb-8 tracking-tight`}>
+      <h1 className={`${fontSize.sm} ${fontSize.md} ${fontSize.lg} flex-nowrap w-full font-bold mb-8 tracking-tight`}>
         {/* Screen reader gets the final state */}
-        <span className="sr-only">Full stack developer</span>
+        <span className="sr-only">Fullstack developer</span>
         
         {/* Visual animation - responsive layout */}
         <span aria-hidden="true" className="block">
           {/* Mobile/Tablet: Two lines */}
-<span className="lg:hidden flex flex-col items-center gap-3">
+<span className="lg:hidden flex flex-col flex-nowrap w-full items-center gap-6">
   <span 
-    className={`${primaryColor} transition-all duration-500 ${getFontClass()}`}
+    className={`${primaryColor}  transition-all duration-500 ${getFontClass()}`}
     style={getFontStyle()}
   >
     {phase2Active ? (
@@ -410,7 +410,7 @@ const HeroText = () => {
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
       </>
     ) : (
-      <span className="relative">
+      <span className="relative inline-block whitespace-nowrap overflow-visible">
         <span dangerouslySetInnerHTML={{ __html: displayText }} />
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
         {showUnderline && (
@@ -448,7 +448,7 @@ const HeroText = () => {
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
       </>
     ) : (
-      <span className="relative">
+      <span className=" relative inline-block whitespace-nowrap overflow-visible">
         <span dangerouslySetInnerHTML={{ __html: displayText }} />
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
         {showUnderline && (

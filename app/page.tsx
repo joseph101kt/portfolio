@@ -1,23 +1,20 @@
-
 import GridWithGlow, { ExplosionButton } from "@/components/Hero/GridWithBgGlow";
-
 import HeroText from "@/components/Hero/HeroText";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
+    <div className="min-h-screen w-full">
+      {/* Hero Section */}
       <GridWithGlow>
-      <div className="absolute top-3/8 left-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2">
-        <HeroText/>
-      </div>
-      
-      <div className="absolute top-3/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <ExplosionButton />
-      </div>
+        {/* Center content with flexbox */}
+        <div className="flex flex-col w-full items-center justify-center min-h-screen gap-10 translate-z-0">
+          <HeroText />
+          <ExplosionButton />
+        </div>
       </GridWithGlow>
-      <div className="h-20"></div>
-    </div>
 
+      {/* Bottom section */}
+      <div className="bg-amber-400 h-50"></div>
+    </div>
   );
 }
