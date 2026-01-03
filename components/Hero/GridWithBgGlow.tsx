@@ -9,6 +9,8 @@ import React, {
   useContext,
   useLayoutEffect,
 } from "react";
+import { useRouter } from "next/navigation";
+
 import { v4 as uuidv4 } from "uuid"
 
 /* =========================
@@ -111,6 +113,8 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
   const btnRef = useRef<HTMLButtonElement>(null);
   const btnCenter = useRef<{ x: number; y: number } | null>(null);
 
+  const router = useRouter();
+
   const { registerGlow, updateGlow, unregisterGlow, containerRef, gridBounds } =
     useGrid();
 
@@ -177,8 +181,8 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
         updateGlow(ids.primary, {
           x,
           y,
-          radius: 120 + e * 100,
-          intensity: 1.3,
+          radius: 140 + e * 100,
+          intensity: 1.7,
         });
       } else {
         const max = Math.hypot(gridBounds.width, gridBounds.height);
@@ -218,26 +222,46 @@ export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
   }, [phase]);
 
   return (
-    <button
-      ref={btnRef}
-      onClick={() => {
-        timeRef.current = 0;
-        setPhase("exploding");
-      }}
-      className="
-        px-8 py-4
-        bg-gray-900/50
-        backdrop-blur-sm
-        text-white
-        rounded-lg
-        border border-gray-700
-        box-border
-        hover:border-gray-600
-        transition-colors
-      "
-    >
-      {children}
-    </button>
+<button
+  ref={btnRef}
+  onClick={() => {
+    timeRef.current = 0
+    setPhase("exploding")
+    setTimeout(() => {
+      router.push("/work"); // or "/projects" if you prefer
+    }, 800); // 0.8 seconds
+  }}
+  className="
+    px-2.5 py-4
+
+    rounded-none
+
+    bg-black
+    border-2
+    border-purple-600
+
+
+    text-white
+    text-base
+    uppercase
+    tracking-[0.32em]
+    leading-none
+
+    font-[\'Bebas Neue\']
+
+    hover:text-purple-300
+    hover:tracking-[0.5em]
+    hover:font-bold
+    hover:italic
+    transition-[color,background-color,letter-spacing]
+  "
+>
+  {children}
+</button>
+
+
+
+
   );
 };
 
