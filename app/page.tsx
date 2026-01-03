@@ -3,7 +3,7 @@ import HeroText from "@/components/Hero/HeroText";
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full flex flex-col">
       {/* Hero Section */}
       <GridWithGlow>
         {/* Center content with flexbox */}
@@ -12,9 +12,6 @@ export default function Home() {
           <ExplosionButton />
         </div>
       </GridWithGlow>
-
-      {/* Bottom section */}
-      <div className="bg-amber-400 h-50"></div>
     </div>
   );
 }
