@@ -1,7 +1,6 @@
 
 import GridWithGlow, { ExplosionButton } from "@/components/Hero/GridWithBgGlow";
-import ResponsiveGrid from "@/components/Hero/heroGrid/ResponsiveGrid";
-import { HeroSection2 } from "@/components/Hero/HeroSection2";
+
 import HeroText from "@/components/Hero/HeroText";
 import Image from "next/image";
 
@@ -18,7 +17,6 @@ export default function Home() {
       </div>
       </GridWithGlow>
       <div className="h-20"></div>
-      <HeroSection2></HeroSection2>
     </div>
 
   );
