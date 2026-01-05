@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full flex flex-col">
      <HeroSection/>
-     <SidewaysScrollGallery images={demoImages}/>
+     <SidewaysScrollGallery images={demoImages} />
      <StackedCardGallery images={demoImages}/>
      <GameCardRevealSequence images={demoImages} finalImage={demoImage}/>
     </div>

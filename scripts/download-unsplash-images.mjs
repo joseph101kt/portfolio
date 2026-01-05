@@ -18,6 +18,13 @@ const IMAGE_URLS = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
   "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f",
   "https://images.unsplash.com/photo-1470770903676-69b98201ea1c",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+    "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5",
+    "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
+    "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5",
 ];
 
 // ---- PATH SETUP ----
