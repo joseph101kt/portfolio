@@ -1,5 +1,5 @@
 import HeroSection from "@/components/Hero/HeroSection";
-import { GameCardReveal } from "@/components/media/GameCardReveal";
+import { GameCardRevealSequence } from "@/components/media/GameCardReveal";
 import { SidewaysScrollGallery } from "@/components/media/SidewaysScrollGallery";
 import { StackedCardGallery } from "@/components/media/StackedCardGallery";
 import demoImages, { demoImage } from "@/lib/images";
@@ -12,7 +12,7 @@ export default function Home() {
      <HeroSection/>
      <SidewaysScrollGallery images={demoImages}/>
      <StackedCardGallery images={demoImages}/>
-     <GameCardReveal image={demoImage}/>
+     <GameCardRevealSequence images={demoImages} finalImage={demoImage}/>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 
 
 const demoImages: readonly string[] = [
-  "/demo_unsplash_images/unsplash_1500530855697-b586d89ba3ee.jpg",
   "/demo_unsplash_images/unsplash_1495567720989-cebdbdd97913.jpg",
   "/demo_unsplash_images/unsplash_1506744038136-46273834b3fb.jpg",
   "/demo_unsplash_images/unsplash_1472214103451-9374bd1c798e.jpg",
