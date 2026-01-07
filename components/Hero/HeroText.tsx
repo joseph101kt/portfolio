@@ -348,11 +348,11 @@ const HeroText = () => {
 
       // Show underline and mark complete
       setCurrentPhase('complete');
-      setShowUnderline(true);
       
-      // Add italic effect after a brief moment
-      await new Promise(resolve => setTimeout(resolve, 400));
       setIsItalic(true);
+      // Add italic effect after a brief moment
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setShowUnderline(true);
       setAnimationComplete(true);
     };
 
