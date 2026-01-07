@@ -224,7 +224,7 @@ export default function WhatsAppFAB(): JSX.Element {
           <button
             onClick={() => setIsChatOpen(false)}
             aria-label="Close"
-            className="text-xl text-gray-400 hover:text-gray-600  "
+            className="text-xl h-10 w-10 -mt-3.5 text-gray-400 hover:text-gray-600  "
           >
             ×
           </button>
