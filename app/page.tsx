@@ -12,7 +12,7 @@ export default function Home() {
      <HeroSection/>
      <SidewaysScrollGallery images={demoImages} />
      <StackedCardGallery images={demoImages}/>
-     <GameCardRevealSequence images={demoImages} finalImage={demoImage}/>
+     <GameCardRevealSequence images={demoImages} finalImage={demoImage}/> 
     </div>
   );
 }
