@@ -1,20 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import GridWithGlow, { ExplosionButton } from "@/components/Hero/GridWithBgGlow";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
+import GridWithGlow from "@/components/Hero/GridWithBgGlow";
 import HeroText from "@/components/Hero/HeroText";
+import ExplosionButton from "./ExplosionButton";
+import { GridContextType } from "./HeroTypes";
+import SmoothCursor from "./SmoothCursor";
 
 const BUTTON_DELAY_MS = 3200;
+
+/* =========================
+    1. CONTEXT & HOOKS
+========================= */
+
+const GridContext = createContext<GridContextType | null>(null);
+
+const useGridInit = (): GridContextType => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  return {
+    containerRef,
+    gridBounds: { width: 0, height: 0 },
+    registerGlow: () => {}, // These are placeholders; GridWithGlow overrides them
+    updateGlow: () => {},
+    unregisterGlow: () => {},
+  };
+};
+
+/**
+ * useGrid: Used by children (ExplosionButton, SmoothCursor).
+ * This calls useContext and requires being inside a Provider.
+ */
+const useGrid = (): GridContextType => {
+  const ctx = useContext(GridContext);
+  if (!ctx) throw new Error("useGrid must be used within GridWithGlow");
+  return ctx;
+};
+
+/* =========================
+    2. MAIN COMPONENT
+========================= */
 
 export default function HeroSection() {
   const [showButton, setShowButton] = useState<boolean>(false);
   const [animateIn, setAnimateIn] = useState<boolean>(false);
 
   useEffect(() => {
-    const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+    const timer = setTimeout(() => {
       setShowButton(true);
-
-      // Trigger animation on next frame
       requestAnimationFrame(() => setAnimateIn(true));
     }, BUTTON_DELAY_MS);
 
@@ -23,8 +55,7 @@ export default function HeroSection() {
 
   return (
     <div className="min-h-screen w-full flex flex-col">
-      <GridWithGlow>
-        {/* Hero + Button wrapper */}
+      <GridWithGlow useGrid={useGridInit} GridContext={GridContext}>
         <div
           className={`
             flex flex-col w-full items-center justify-center
@@ -33,10 +64,9 @@ export default function HeroSection() {
             ${animateIn ? "-translate-y-2 md:-translate-y-3 lg:-translate-y-4" : "translate-y-0"}
           `}
         >
-          {/* Hero Text */}
+          <SmoothCursor useGrid={useGrid} />
           <HeroText />
-
-          {/* Button (always in DOM, hidden until animation) */}
+          
           <div
             className={`
               transform transition-all duration-700 ease-out
@@ -44,7 +74,10 @@ export default function HeroSection() {
               ${animateIn ? "opacity-100 translate-y-0 scale-100" : ""}
             `}
           >
-            {showButton && <ExplosionButton />}
+            {/* Pass the standard useGrid hook to children.
+                They are inside the Provider, so it will work.
+            */}
+            {showButton && <ExplosionButton useGrid={useGrid} />}
           </div>
         </div>
       </GridWithGlow>

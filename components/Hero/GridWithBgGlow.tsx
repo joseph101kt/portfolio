@@ -9,320 +9,47 @@ import React, {
   useContext,
   useLayoutEffect,
 } from "react";
-import { useRouter } from "next/navigation";
-
-import { v4 as uuidv4 } from "uuid"
-
-/* =========================
-   Types
-========================= */
-
-interface GlowSource {
-  id: string;
-  x: number;
-  y: number;
-  color: string;
-  radius: number;
-  intensity: number;
-}
-
-interface GridContextType {
-  registerGlow: (id: string, glow: Omit<GlowSource, "id">) => void;
-  updateGlow: (id: string, glow: Partial<Omit<GlowSource, "id">>) => void;
-  unregisterGlow: (id: string) => void;
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  gridBounds: { width: number; height: number };
-}
-
-/* =========================
-   Context
-========================= */
-
-const GridContext = createContext<GridContextType | null>(null);
-
-const useGrid = (): GridContextType => {
-  const ctx = useContext(GridContext);
-  if (!ctx) throw new Error("useGrid must be used within GridWithGlow");
-  return ctx;
-};
-
-/* =========================
-   Utils
-========================= */
-
-const easeInOutSine = (x: number): number =>
-  -(Math.cos(Math.PI * x) - 1) / 2;
-
-const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
-  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return m
-    ? {
-        r: parseInt(m[1], 16),
-        g: parseInt(m[2], 16),
-        b: parseInt(m[3], 16),
-      }
-    : { r: 106, g: 111, b: 255 };
-};
-
-/* =========================
-   Glow Renderer
-========================= */
-
-const CircleGlow: React.FC<{ source: GlowSource; maxRadius?: number }> = ({
-  source,
-  maxRadius = source.radius,
-}) => {
-  const rgb = hexToRgb(source.color);
-  const size = maxRadius * 2;
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: 0,
-        top: 0,
-        transform: `translate(${source.x - maxRadius}px, ${source.y - maxRadius}px)`,
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        background: `radial-gradient(circle,
-          rgba(${rgb.r},${rgb.g},${rgb.b},${0.6 * source.intensity}) 0%,
-          rgba(${rgb.r},${rgb.g},${rgb.b},${0.25 * source.intensity}) 35%,
-          rgba(${rgb.r},${rgb.g},${rgb.b},${0.1 * source.intensity}) 60%,
-          transparent 100%)`,
-        filter: "blur(20px)",
-        pointerEvents: "none",
-        mixBlendMode: "screen",
-        contain: "paint",
-      }}
-    />
-  );
-};
-
-/* =========================
-   Explosion Button
-========================= */
-
-export const ExplosionButton: React.FC<{ children?: React.ReactNode }> = ({
-  children = "Explore My Work",
-}) => {
-  const [phase, setPhase] = useState<"breathing" | "exploding">("breathing");
-  const [ready, setReady] = useState(false);
-  const timeRef = useRef(0);
-  const lastRef = useRef(0);
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const btnCenter = useRef<{ x: number; y: number } | null>(null);
-
-  const router = useRouter();
-
-  const { registerGlow, updateGlow, unregisterGlow, containerRef, gridBounds } =
-    useGrid();
-
-  const ids = useMemo(() => {
-    const uid = uuidv4()
-    return {
-      primary: `p-${uid}`,
-      w1: `w1-${uid}`,
-      w2: `w2-${uid}`,
-      w3: `w3-${uid}`,
-      flash: `f-${uid}`,
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!btnRef.current || !containerRef.current) return;
-
-    const b = btnRef.current.getBoundingClientRect();
-    const c = containerRef.current.getBoundingClientRect();
-
-    btnCenter.current = {
-      x: b.left + b.width / 2 - c.left,
-      y: b.top + b.height / 2 - c.top,
-    };
-
-    // Register glows at correct position
-    registerGlow(ids.primary, {
-      x: btnCenter.current.x,
-      y: btnCenter.current.y,
-      color: "#6A6FFF",
-      radius: 120,
-      intensity: 1,
-    });
-    registerGlow(ids.w1, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#6AFFFF", radius: 0, intensity: 0 });
-    registerGlow(ids.w2, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#8B5CF6", radius: 0, intensity: 0 });
-    registerGlow(ids.w3, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#6A6FFF", radius: 0, intensity: 0 });
-    registerGlow(ids.flash, { x: btnCenter.current.x, y: btnCenter.current.y, color: "#FFF", radius: 0, intensity: 0 });
-
-    // Schedule ready state after current frame to avoid warning
-    requestAnimationFrame(() => setReady(true));
-
-    return () => Object.values(ids).forEach(unregisterGlow);
-  }, [registerGlow, unregisterGlow, ids, containerRef, btnRef]);
-
-useEffect(() => {
-  let raf: number;
-
-  // Detect mobile/touch devices
-  const isMobile =
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer: coarse)").matches;
-
-  const intensityScale = isMobile ? 1.5 : 1; // Scale intensity 50% stronger on mobile
-
-  const tick = (now: number) => {
-    if (!lastRef.current) lastRef.current = now;
-    const dt = (now - lastRef.current) / 1000;
-    lastRef.current = now;
-    timeRef.current += dt;
-
-    if (!btnRef.current || !containerRef.current) {
-      raf = requestAnimationFrame(tick);
-      return;
-    }
-    if (!btnCenter.current) return; // skip animation until position known
-    const { x, y } = btnCenter.current;
-
-    if (phase === "breathing") {
-      const p = (timeRef.current % 3) / 3;
-      const e = Math.sin(p * Math.PI);
-
-      // Scale only intensity on mobile
-      updateGlow(ids.primary, {
-        x,
-        y,
-        radius: 140 + e * 100,         // same radius range
-        intensity: 1.7 * intensityScale,
-      });
-    } else {
-      const max = Math.hypot(gridBounds.width, gridBounds.height);
-
-      const wave = (
-        id: string,
-        delay: number,
-        dur: number,
-        scale: number,
-        intensity: number
-      ) => {
-        const t = timeRef.current - delay;
-        if (t < 0 || t > dur) return updateGlow(id, { intensity: 0 });
-        const e = easeInOutSine(t / dur);
-        updateGlow(id, {
-          x,
-          y,
-          radius: e * max * scale,               // same range
-          intensity: intensity * (1 - e) * intensityScale, // scale only
-        });
-      };
-
-      wave(ids.w1, 0, 0.8, 1.2, 2.2);
-      wave(ids.w2, 0.1, 0.9, 1.1, 1.6);
-      wave(ids.w3, 0.2, 1.0, 1.0, 1.2);
-
-      if (timeRef.current > 1.2) {
-        timeRef.current = 0;
-        setPhase("breathing");
-      }
-    }
-
-    raf = requestAnimationFrame(tick);
-  };
-
-  raf = requestAnimationFrame(tick);
-  return () => cancelAnimationFrame(raf);
-}, [phase, ids, updateGlow, gridBounds, phase]);
-
-
-  return (
-<button
-  ref={btnRef}
-  onClick={() => {
-    timeRef.current = 0
-    setPhase("exploding")
-    setTimeout(() => {
-      router.push("/work"); // or "/projects" if you prefer
-    }, 800); // 0.8 seconds
-  }}
-  className="
-    px-2.5 py-4
-
-    rounded-none
-
-    bg-black
-    border-2
-    border-purple-600
-
-
-    text-white
-    text-base
-    uppercase
-    tracking-[0.32em]
-    leading-none
-
-    font-[\'Bebas Neue\']
-
-    hover:text-purple-300
-    hover:tracking-[0.5em]
-    hover:font-bold
-    hover:italic
-    transition-[color,background-color,letter-spacing]
-  "
->
-  {children}
-</button>
+import SmoothCursor from "./SmoothCursor";
+import CanvasGrid from "./CanvasGrid";
+import CircleGlow from "./CircleGlow";
+import { GridContextType, GlowSource } from "./HeroTypes";
 
 
 
 
-  );
-};
-
-/* =========================
-   Canvas Grid
-========================= */
-
-const CanvasGrid: React.FC<{ rows: number; cols: number; size: number }> = ({
-  rows,
-  cols,
-  size,
-}) => {
-  const ref = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = cols * size;
-    canvas.height = rows * size;
-
-    ctx.fillStyle = "rgba(5,8,18,1)";
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        ctx.fillRect(x * size, y * size, size - 2, size - 2);
-      }
-    }
-  }, [rows, cols, size]);
-
-  return <canvas ref={ref} className="absolute inset-0" />;
-};
 
 /* =========================
    Main Grid Wrapper
 ========================= */
 
-const GridWithGlow: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+interface GridWithGlowProps {
+  // Pass the hook as a prop
+  useGrid: () => GridContextType;
+  // Pass the Context object as a prop
+  GridContext: React.Context<GridContextType | null>;
+  // Include children
+  children: React.ReactNode;
+}
+
+/* =========================
+   Constants
+========================= */
 
 const GRID_COLS_BREAKPOINTS = [
-  { maxWidth: 640, cols: 10 },  // small screens
-  { maxWidth: 768, cols: 15 },  // medium screens
-  { maxWidth: 1024, cols: 20 }, // large screens
+  { maxWidth: 640, cols: 10 },    // small screens
+  { maxWidth: 768, cols: 15 },    // medium screens
+  { maxWidth: 1024, cols: 20 },   // large screens
   { maxWidth: Infinity, cols: 25 } // extra-large screens
 ];
 
+/* =========================
+   Component
+========================= */
 
-
+const GridWithGlow: React.FC<GridWithGlowProps> = ({ useGrid, GridContext, children }) => {
+  // 1. Execute the hook passed as a prop
+  const gridValues = useGrid();
+  const { containerRef } = gridValues;
   const DEFAULT_DIMS = { rows: 16, cols: 16, size: 50 };
 
   const [dims, setDims] = useState(DEFAULT_DIMS);
@@ -452,55 +179,11 @@ const compute = () => {
           </div>
         </div>
 
-        {!isTouch && isReady && <SmoothCursor />}
+        {!isTouch && isReady && <SmoothCursor  useGrid={useGrid}/>}
       </div>
     </GridContext.Provider>
   );
 };
 
-/* =========================
-   Smooth Cursor
-========================= */
-
-const SmoothCursor: React.FC = () => {
-  const { registerGlow, updateGlow, unregisterGlow, containerRef } = useGrid();
-  const target = useRef({ x: 0, y: 0 });
-  const pos = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    registerGlow("cursor", { x: 0, y: 0, color: "#6A6FFF", radius: 200, intensity: 1 });
-    return () => unregisterGlow("cursor");
-  }, []);
-
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      const r = containerRef.current?.getBoundingClientRect();
-      if (!r) return;
-      target.current = { x: e.clientX - r.left, y: e.clientY - r.top };
-    };
-    window.addEventListener("mousemove", move, { passive: true });
-    return () => window.removeEventListener("mousemove", move);
-  }, []);
-
-  useEffect(() => {
-    let raf: number;
-    const tick = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.3;
-      pos.current.y += (target.current.y - pos.current.y) * 0.3;
-
-      updateGlow("cursor", {
-        x: pos.current.x,
-        y: pos.current.y,
-        intensity: 1,
-      });
-
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  return null;
-};
 
 export default GridWithGlow;
