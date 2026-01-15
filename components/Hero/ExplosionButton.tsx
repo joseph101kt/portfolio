@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useRef, useMemo, useLayoutEffect, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useTheme } from "./HeroThemeContext"; 
 
 interface ExplosionButtonProps {
   useGrid: () => {
@@ -20,12 +21,12 @@ export const ExplosionButton: React.FC<ExplosionButtonProps> = ({ useGrid }) => 
   const btnRef = useRef<HTMLButtonElement>(null);
   const btnCenter = useRef<{ x: number; y: number } | null>(null);
 
+  const theme = useTheme(); 
   const router = useRouter();
 
   const easeInOutSine = (x: number): number =>
     -(Math.cos(Math.PI * x) - 1) / 2;
 
-  // Destructure from the prop function
   const { registerGlow, updateGlow, unregisterGlow, containerRef, gridBounds } = useGrid();
 
   const ids = useMemo(() => {
@@ -52,16 +53,18 @@ export const ExplosionButton: React.FC<ExplosionButtonProps> = ({ useGrid }) => 
 
     const { x, y } = btnCenter.current;
 
-    registerGlow(ids.primary, { x, y, color: "#6A6FFF", radius: 120, intensity: 1 });
-    registerGlow(ids.w1, { x, y, color: "#6AFFFF", radius: 0, intensity: 0 });
-    registerGlow(ids.w2, { x, y, color: "#8B5CF6", radius: 0, intensity: 0 });
-    registerGlow(ids.w3, { x, y, color: "#6A6FFF", radius: 0, intensity: 0 });
-    registerGlow(ids.flash, { x, y, color: "#FFF", radius: 0, intensity: 0 });
+    // 1. Updated Glow Color Mappings to match your new ColorScheme
+    registerGlow(ids.primary, { x, y, color: theme.glowPrimary, radius: 120, intensity: 1 });
+    registerGlow(ids.w1, { x, y, color: theme.glowWave1, radius: 0, intensity: 0 });
+    registerGlow(ids.w2, { x, y, color: theme.glowWave2, radius: 0, intensity: 0 });
+    registerGlow(ids.w3, { x, y, color: theme.glowWave3, radius: 0, intensity: 0 });
+    // Note: If you don't have theme.flash, theme.glowWave1 is a good bright alternative
+    registerGlow(ids.flash, { x, y, color: theme.glowWave1, radius: 0, intensity: 0 });
 
     requestAnimationFrame(() => setReady(true));
 
     return () => Object.values(ids).forEach(unregisterGlow);
-  }, [registerGlow, unregisterGlow, ids, containerRef]);
+  }, [registerGlow, unregisterGlow, ids, containerRef, theme]); 
 
   useEffect(() => {
     let raf: number;
@@ -130,7 +133,15 @@ export const ExplosionButton: React.FC<ExplosionButtonProps> = ({ useGrid }) => 
         setPhase("exploding");
         setTimeout(() => router.push("/work"), 800);
       }}
-      className="px-2.5 py-4 rounded-none bg-black border-2 border-purple-600 text-white text-base uppercase tracking-[0.32em] leading-none font-['Bebas_Neue'] hover:text-purple-300 hover:tracking-[0.5em] hover:font-bold hover:italic transition-[color,background-color,letter-spacing]"
+      // 2. Map Button Colors to the Theme
+      style={{ 
+        backgroundColor: theme.buttonBg, 
+        borderColor: theme.buttonBorder, 
+        color: theme.buttonText,
+        // Using a CSS variable for the hover state color
+        ['--hover-color' as string]: theme.buttonHoverText 
+      } as React.CSSProperties}
+      className="px-6 py-4 rounded-none border-2 text-base uppercase tracking-[0.32em] leading-none font-['Bebas_Neue'] transition-all duration-300 hover:text-[var(--hover-color)] hover:tracking-[0.5em] hover:font-bold hover:italic active:scale-95"
     >
       Explore My Work
     </button>

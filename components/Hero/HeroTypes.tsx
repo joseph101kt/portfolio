@@ -48,6 +48,9 @@ export interface ColorScheme {
   soundFile?: string;
 }
 
+export type ThemeName = "purple" | "emerald" | "sunset" | "ocean";
+
+
 export const PALETTES: Record<string, ColorScheme> = {
   purple: {
     background: "#02040a",

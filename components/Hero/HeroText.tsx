@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-
+import { useTheme } from "./HeroThemeContext";
 // ========================================
 // 🎨 DESIGN VARIABLES - Easy Configuration
 // ========================================
@@ -26,11 +26,6 @@ subTaglineSize: {
   // Animation timing
   initialDelay: 300,     // Wait before starting animation (ms)
   
-  // Colors
-  primaryColor: 'text-purple-400',
-  secondaryColor: 'text-white',
-  taglineColor: 'text-gray-300',
-  subTaglineColor: 'text-gray-400',
 };
 // ========================================
 
@@ -43,6 +38,8 @@ const HeroText = () => {
   const [isItalic, setIsItalic] = useState(false);
   const prefersReducedMotion = useRef(false);
   const hasAnimated = useRef(false);
+
+  const theme = useTheme();
 
   // Font families for scrambling effect
   const scrambleFonts = [
@@ -383,7 +380,10 @@ const HeroText = () => {
     };
   };
 
-  const { fontSize, taglineSize, subTaglineSize, primaryColor, secondaryColor, taglineColor, subTaglineColor } = DESIGN_CONFIG;
+
+  const { fontSize, taglineSize, subTaglineSize } = DESIGN_CONFIG;
+
+
 
   return (
 <div className="flex flex-col items-center justify-center h-full w-full text-center px-6 py-12">
@@ -397,7 +397,7 @@ const HeroText = () => {
           {/* Mobile/Tablet: Two lines */}
 <span className="lg:hidden flex flex-col flex-nowrap w-full items-center gap-6">
   <span 
-    className={`${primaryColor}  transition-all duration-500 ${getFontClass()}`}
+    className={`${theme.heroPrimary}  transition-all duration-500 ${getFontClass()}`}
     style={getFontStyle()}
   >
     {phase2Active ? (
@@ -413,18 +413,22 @@ const HeroText = () => {
       <span className="relative inline-block whitespace-nowrap overflow-visible">
         <span dangerouslySetInnerHTML={{ __html: displayText }} />
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
-        {showUnderline && (
-          <span 
-            className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-400 to-violet-500 transition-all duration-500 ${
-              animationComplete ? 'w-full' : 'w-0'
-            }`}
-          />
-        )}
+{showUnderline && (
+  <span 
+    className="absolute -bottom-2 left-0 h-1 transition-all duration-500"
+    style={{ 
+      // 1. Dynamic gradient using theme hex codes
+      background: `linear-gradient(to right, ${theme.heroUnderline}, ${theme.heroUnderlineAccent})`,
+      // 2. Logic to animate width
+      width: animationComplete ? '100%' : '0%' 
+    }}
+  />
+)}
       </span>
     )}
   </span>
   <span 
-    className={`${secondaryColor} transition-all duration-500 ${getFontClass()}`}
+    className={`${theme.heroSecondary} transition-all duration-500 ${getFontClass()}`}
     style={getFontStyle()}
   >
     developer
@@ -435,7 +439,7 @@ const HeroText = () => {
 {/* Desktop: One line */}
 <span className="hidden lg:flex lg:items-center lg:justify-center gap-2">
   <span 
-    className={`${primaryColor} transition-all duration-500 ${getFontClass()}`}
+    className={`${theme.heroPrimary} transition-all duration-500 ${getFontClass()}`}
     style={getFontStyle()}
   >
     {phase2Active ? (
@@ -448,21 +452,25 @@ const HeroText = () => {
         <span dangerouslySetInnerHTML={{ __html: staticText }} />
       </>
     ) : (
-      <span className=" relative inline-block whitespace-nowrap overflow-visible">
-        <span dangerouslySetInnerHTML={{ __html: displayText }} />
-        <span dangerouslySetInnerHTML={{ __html: staticText }} />
-        {showUnderline && (
-          <span 
-            className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-400 to-violet-500 transition-all duration-500 ${
-              animationComplete ? 'w-full' : 'w-0'
-            }`}
-          />
-        )}
-      </span>
+<span className="relative inline-block whitespace-nowrap overflow-visible">
+    <span dangerouslySetInnerHTML={{ __html: displayText }} />
+    <span dangerouslySetInnerHTML={{ __html: staticText }} />
+    
+    {showUnderline && (
+      <span 
+        className={`absolute -bottom-2 left-0 h-1 transition-all duration-500 ${
+          animationComplete ? 'w-full' : 'w-0'
+        }`}
+        style={{
+          background: `linear-gradient(to right, ${theme.heroUnderline}, ${theme.heroUnderlineAccent})`
+        }}
+      />
+    )}
+  </span>
     )}
   </span>
   <span 
-    className={`${secondaryColor} transition-all duration-500 ${getFontClass()}`}
+    className={`${theme.heroSecondary} transition-all duration-500 ${getFontClass()}`}
     style={getFontStyle()}
   >
     developer
@@ -473,9 +481,9 @@ const HeroText = () => {
       </h1>
 
       {/* Static supporting line - always visible */}
-<p className={`${taglineSize.sm} ${taglineSize.md} ${taglineSize.lg} ${taglineColor} max-w-3xl leading-relaxed font-light`}>
+<p className={`${taglineSize.sm} ${taglineSize.md} ${taglineSize.lg} ${theme.heroTagline} max-w-3xl leading-relaxed font-light`}>
   Crafting engaging Frontend experiences optimized for SEO
-  <span className={`${subTaglineColor} block mt-2 ${subTaglineSize.sm} ${subTaglineSize.md} ${subTaglineSize.lg}`}>
+  <span className={`${theme.heroSubTagline} block mt-2 ${subTaglineSize.sm} ${subTaglineSize.md} ${subTaglineSize.lg}`}>
     With robust and scalable Backend systems
   </span>
 </p>

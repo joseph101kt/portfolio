@@ -1,14 +1,32 @@
 import React, { createContext, useContext } from "react";
-import { ThemeName, Palette, PALETTES } from "./HeroTypes";
+import { ThemeName, ColorScheme, PALETTES } from "./HeroTypes";
 
-const ThemeContext = createContext<Palette>(PALETTES.purple);
+// 1. Initialize context with the ColorScheme type
+// We use PALETTES.purple as the default starting point
+const ThemeContext = createContext<ColorScheme>(PALETTES.purple);
 
-export const ThemeProvider: React.FC<{ theme: ThemeName; children: React.ReactNode }> = ({ theme, children }) => {
+export const ThemeProvider: React.FC<{ 
+  theme: ThemeName; 
+  children: React.ReactNode 
+}> = ({ theme, children }) => {
+  
+  // 2. Ensure we fallback to purple if a non-existent theme name is passed
+  const activeTheme = PALETTES[theme] || PALETTES.purple;
+
   return (
-    <ThemeContext.Provider value={PALETTES[theme]}>
+    <ThemeContext.Provider value={activeTheme}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+// 3. Custom hook to consume the theme in HeroText, CanvasGrid, etc.
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+};
+
+export default ThemeProvider;
