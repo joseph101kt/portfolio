@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, useRef } from "react";
-import GridWithGlow from "@/components/Hero/GridWithBgGlow";
-import HeroText from "@/components/Hero/HeroText";
+import GridWithGlow from "@/components/DevHero/GridWithBgGlow";
+import HeroText from "@/components/DevHero/HeroText";
 import ExplosionButton from "./ExplosionButton";
 import { GridContextType, ThemeName, PALETTES } from "./HeroTypes"; // Added PALETTES
 import SmoothCursor from "./SmoothCursor";
@@ -42,7 +42,7 @@ export default function HeroSection() {
   const [animateIn, setAnimateIn] = useState<boolean>(false);
   
   // Current active theme
-  const [activeTheme] = useState<ThemeName>("emerald");
+  const [activeTheme] = useState<ThemeName>("purple");
 
   // Get the specific colors for the current theme to apply to the wrapper
   const currentPalette = PALETTES[activeTheme];
@@ -73,6 +73,9 @@ export default function HeroSection() {
             `}
           >
             <SmoothCursor useGrid={useGrid} />
+
+
+            
             <HeroText />
             
             <div

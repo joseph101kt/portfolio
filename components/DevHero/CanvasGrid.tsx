@@ -12,6 +12,8 @@ const CanvasGrid: React.FC<{ rows: number; cols: number; size: number }> = ({
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
+  const borderRadius = 0 // use 0 for dev mode
+  const gap = 2 // use 2 for dev mode
 
   useEffect(() => {
     const canvas = ref.current;
@@ -35,7 +37,8 @@ const CanvasGrid: React.FC<{ rows: number; cols: number; size: number }> = ({
       for (let x = 0; x < cols; x++) {
         // Draw the tiles with the specific cell color
         // The '- 2' creates the transparent gap/mesh
-        ctx.fillRect(x * size, y * size, size - 2, size - 2);
+        ctx.roundRect(x * size, y * size, size - gap, size - gap, borderRadius);
+        ctx.fill();
       }
     }
     // Added theme.gridCell to dependency array to ensure 
