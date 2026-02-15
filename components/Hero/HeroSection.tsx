@@ -1,314 +1,273 @@
 "use client";
-import React, { useState } from 'react';
-import { Search, CheckCircle2, Phone, MessageCircle, ArrowRight } from 'lucide-react';
+import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
 
-// ============================================================================
-// EXTRACTED COMPONENTS FOR BETTER ARCHITECTURE
-// ============================================================================
-
-interface EyebrowProps {
-  text: string;
-}
-
-const Eyebrow: React.FC<EyebrowProps> = ({ text }) => (
-  <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-emerald-100/90 backdrop-blur-sm border border-emerald-200/60 shadow-sm">
-    <div className="relative">
-      <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-    </div>
-    <span className="text-sm font-semibold text-emerald-900 tracking-wide">
-      {text}
-    </span>
-  </div>
-);
-
-interface TrustSignalsProps {
-  signals: string[];
-}
-
-const TrustSignals: React.FC<TrustSignalsProps> = ({ signals }) => (
-  <div className="space-y-2.5 pt-5">
-    {signals.map((signal, index) => (
-      <div
-        key={signal}
-        className="flex items-center gap-3 group"
-      >
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] group-hover:scale-125 transition-transform"></div>
-        <span className="text-slate-600 font-medium text-[15px]">{signal}</span>
-      </div>
-    ))}
-  </div>
-);
-
-interface AuthorityBlockProps {
-  title: string;
-  proofPoints: string[];
-}
-
-const AuthorityBlock: React.FC<AuthorityBlockProps> = ({ title, proofPoints }) => (
-  <div className="group bg-white/90 backdrop-blur-md border border-emerald-200/60 rounded-2xl p-5 shadow-lg shadow-emerald-100/50 hover:shadow-xl hover:shadow-emerald-100/60 hover:-translate-y-1 transition-all duration-300">
-    <p className="text-base font-semibold text-slate-900 mb-3 leading-relaxed">
-      {title}
-    </p>
-    <div className="flex flex-wrap gap-4">
-      {proofPoints.map((item) => (
-        <div key={item} className="flex items-center gap-2.5">
-          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-sm">
-            <CheckCircle2 className="w-3 h-3 text-white" strokeWidth={3} />
-          </div>
-          <span className="text-[15px] font-medium text-slate-700">{item}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-interface CTAButtonsProps {
-  onPrimaryClick: () => void;
-  isClicked: boolean;
-}
-
-const CTAButtons: React.FC<CTAButtonsProps> = ({ onPrimaryClick, isClicked }) => (
-  <div className="flex flex-col sm:flex-row gap-4">
-    <button
-      onClick={onPrimaryClick}
-      className="
-        group relative px-8 py-3.5 rounded-xl font-bold text-[17px] text-white
-        bg-gradient-to-br from-emerald-500 via-emerald-600 to-green-600
-        shadow-lg shadow-emerald-500/40
-        hover:shadow-2xl hover:shadow-emerald-500/50
-        hover:-translate-y-1
-        focus:outline-none focus:ring-4 focus:ring-emerald-500/50
-        transition-all duration-300
-        overflow-hidden
-      "
-      aria-label="See how this gets you customers"
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-      <span className="relative flex items-center justify-center gap-2.5">
-        Get More Customers
-        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-      </span>
-    </button>
-
-    <a
-      href="#demo"
-      className="
-        group px-8 py-3.5 rounded-xl font-bold text-[17px] text-emerald-700
-        bg-white border-2 border-emerald-600
-        hover:bg-emerald-50 hover:border-emerald-700
-        hover:-translate-y-1
-        focus:outline-none focus:ring-4 focus:ring-emerald-500/30
-        shadow-md hover:shadow-xl
-        transition-all duration-300
-        text-center
-      "
-      aria-label="View a real example"
-    >
-      See It In Action
-    </a>
-  </div>
-);
-
-interface GoogleSearchMockupProps {
-  searchQuery: string;
-}
-
-const GoogleSearchMockup: React.FC<GoogleSearchMockupProps> = ({ searchQuery }) => (
-  <div className="space-y-4">
-    {/* Search Bar */}
-    <div className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-full shadow-inner border border-slate-200">
-      <Search className="w-5 h-5 text-slate-500" strokeWidth={2} />
-      <span className="text-slate-800 font-medium">{searchQuery}</span>
-    </div>
-
-    {/* Search Results */}
-    <div className="space-y-3">
-      {/* Old Result 1 */}
-      <div className="relative opacity-30 p-5 rounded-xl transition-opacity hover:opacity-40">
-        <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center">
-          <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
-            <span className="text-red-600 text-xs font-bold">✕</span>
-          </div>
-        </div>
-        <div className="text-blue-600 font-semibold text-lg mb-1 line-through decoration-red-500/50">
-          Joe's Plumbing Service
-        </div>
-        <div className="text-slate-500 text-xs mb-2">oldsite.com</div>
-        <div className="text-slate-600 text-sm opacity-70">
-          Welcome to our website. We have been in business...
-        </div>
-      </div>
-
-      {/* New Result - Highlighted */}
-      <div className="relative p-4 rounded-2xl bg-gradient-to-br from-emerald-50 via-green-50/50 to-emerald-50 border-2 border-emerald-500 shadow-xl shadow-emerald-200/60 hover:scale-[1.02] transition-transform duration-300">
-        <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center">
-          <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/50">
-            <CheckCircle2 className="w-4 h-4 text-white" strokeWidth={3} />
-          </div>
-        </div>
-        <div className="text-blue-600 font-bold text-lg mb-1.5">
-          QuickFix Plumbing - Emergency Service 24/7
-        </div>
-        <div className="text-emerald-700 text-xs font-semibold mb-2.5 flex items-center gap-1">
-          <div className="w-1 h-1 rounded-full bg-emerald-500"></div>
-          quickfixplumbing.com
-        </div>
-        <div className="text-slate-700 text-[15px] mb-4 leading-relaxed font-medium">
-          Emergency plumber in your area. Fast response, upfront pricing. Leaks, blockages, installations fixed today.
-        </div>
-        <div className="flex gap-2.5">
-          <button
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-emerald-100 to-green-50 border border-emerald-300/60 rounded-full text-sm font-bold text-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer min-h-[44px]"
-            aria-label="Call now"
-          >
-            <Phone className="w-4 h-4" strokeWidth={2.5} />
-            Call Now
-          </button>
-          <button
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-br from-green-100 to-emerald-50 border border-emerald-300/60 rounded-full text-sm font-bold text-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer min-h-[44px]"
-            aria-label="Message on WhatsApp"
-          >
-            <MessageCircle className="w-4 h-4" strokeWidth={2.5} />
-            WhatsApp
-          </button>
-        </div>
-      </div>
-
-      {/* Old Result 2 */}
-      <div className="relative opacity-30 p-5 rounded-xl transition-opacity hover:opacity-40">
-        <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center">
-          <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
-            <span className="text-red-600 text-xs font-bold">✕</span>
-          </div>
-        </div>
-        <div className="text-blue-600 font-semibold text-lg mb-1 line-through decoration-red-500/50">
-          Smith Bros Plumbing
-        </div>
-        <div className="text-slate-500 text-xs mb-2">smithplumbing.net</div>
-        <div className="text-slate-600 text-sm opacity-70">
-          Quality plumbing services. Contact us for more info...
-        </div>
-      </div>
-    </div>
-
-    {/* Comparison Label */}
-    <div className="relative pt-6 mt-6 border-t-2 border-dashed border-emerald-300/60">
-      <div className="w-20 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-amber-500 rounded-full mx-auto mb-3 shadow-sm"></div>
-      <div className="text-center text-[15px] font-bold text-slate-700 tracking-wide">
-        Invisible → Found → Called
-      </div>
-    </div>
-  </div>
-);
-
-// ============================================================================
-// MAIN HERO SECTION COMPONENT
-// ============================================================================
-
-const HeroSection: React.FC = () => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handlePrimaryCTA = () => {
-    setIsClicked(true);
-    
-    // Play premium coin sound
-    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACAAACAggKCBIQGhgiICooMjA6OEJASkxSVFpcYmRqbHJ0eoB+hH6MfpR+nH6kfqx+tH68fsR+zH7Uftx+5H7sfvR+/H8EfxB/GH8gfyh/MH84f0B/SH9Qf1h/YH9of3B/eH+Af4h/kH+Yf6B/qH+wf7h/wH/If9B/2H/gf+h/8H/4fACABIAIgAyAEIAUgBiAHIAggCSAKIAsgDCANIA4gDyAQIBEgEiATIBQgFSAWIBcgGCAZIBogGyAcIB0gHiAfICAgISAiICMgJCAlICYgJyAoICkgKiArICwgLSAuIC8gMCAxIDIgMyA0IDUgNiA3IDggOSA6IDsgPCA9ID4gPyBAIEEgQiBDIEQgRSBGIEcgSCBJIEogSyBMIE0gTiBPIFAgUSBSIFMgVCBVIFYgVyBYIFkgWiBbIFwgXSBeIF8gYCBhIGIgYyBkIGUgZiBnIGggaSBqIGsgbCBtIG4gbyBwIHEgciBzIHQgdSB2IHcgeCB5IHogeyB8IH0gfiB/IIAggSCCIIMghCCFIIYghyCIIIkgiiCLIIwgjSCOII8gkCCRIJIgkyCUIJUgliCXIJggmSCaIJsgnCCdIJ4gnyA=');
-    audio.volume = 0.2;
-    audio.play().catch(() => {});
-    
-    setTimeout(() => setIsClicked(false), 800);
-    
-    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+const HeroSection = () => {
   return (
     <section 
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-amber-50"
-      role="region"
-      aria-label="Hero section"
+      className="min-h-screen flex items-center"
+      style={{ backgroundColor: '#F5EFE7' }}
     >
-      {/* Noise texture overlay for warmth */}
-      <div 
-        className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-        }}
-      ></div>
+      <div className="w-full max-w-6xl mx-auto px-5 py-5 sm:px-8">
 
-      {/* Continuous gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/40 via-green-100/30 to-amber-100/40"></div>
-      
-      {/* Layered radial overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-emerald-200/25 via-transparent to-transparent"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-amber-200/20 via-transparent to-transparent"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
-          {/* Left Column */}
-          <div className="space-y-5">
-            <Eyebrow text="For Local Service Businesses" />
-
-            {/* Headline with improved hierarchy */}
-            <h1 className="font-['Space_Grotesk'] text-[clamp(2.25rem,7vw,3.75rem)] font-black leading-[1.05] tracking-[-0.04em] text-slate-900">
-              Turn Google Searches<br />
-              Into{' '}
-              <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-emerald-600 via-green-500 to-amber-500 bg-clip-text text-transparent">
-                  Paying Customers
-                </span>
-                <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-amber-500 rounded-full"></div>
-              </span>
-            </h1>
-
-            {/* Subheadline with better spacing */}
-            <p className="text-[clamp(1rem,2.5vw,1.25rem)] text-slate-600 font-medium leading-relaxed max-w-xl">
-              When something breaks, people search Google. The question is—do they find you?
+        {/* Hero Grid */}
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-20 items-start">
+          
+          {/* Left Column - The Message */}
+          <div className="max-w-2xl">
+            
+            {/* Kicker */}
+            <p 
+              className="text-sm font-bold mb-6 tracking-wider"
+              style={{ color: '#C65D3B' }}
+            >
+              FOR PLUMBERS · SPARKIES · TRADIES IN AUSTRALIA
             </p>
 
-            <AuthorityBlock
-              title="Websites built specifically for plumbers, electricians, and local service businesses."
-              proofPoints={['SEO-ready', 'Mobile-first', 'WhatsApp leads']}
-            />
+            {/* Headline */}
+            <h1 
+              className="text-[2rem] sm:text-[2.75rem] lg:text-[3rem] leading-[1.05] mb-6"
+              style={{ 
+                fontFamily: 'Georgia, serif',
+                fontWeight: 700,
+                color: '#2D3436',
+                letterSpacing: '-0.03em'
+              }}
+            >
+              Losing $2,000/Week to Competitors on Google?
+            </h1>
 
-            <CTAButtons onPrimaryClick={handlePrimaryCTA} isClicked={isClicked} />
+            {/* The Agitation */}
+            <p 
+              className="text-lg sm:text-xl leading-normal mb-8"
+              style={{ color: '#636E72' }}
+            >
+                When someone searches &quot;plumber near me&quot;&mdash;your competitor shows up first.
+                His phone&apos;s ringing. Yours isn&apos;t.
+            </p>
+            
+            <p 
+              className="text-lg sm:text-xl font-semibold mb-10"
+              style={{ color: '#2D3436' }}
+            >
+              I fix that.
+            </p>
 
-            <TrustSignals
-              signals={[
-                'Built for local businesses',
-                'No ads. No retainers. Just results.',
-                'Works even on slow phones'
-              ]}
-            />
+            {/* Single CTA */}
+            <div className="mb-6">
+              <a
+                href="#contact"
+                className="inline-block px-10 py-4 text-lg font-semibold transition-colors duration-200 rounded"
+                style={{
+                  backgroundColor: '#C65D3B',
+                  color: '#FAF7F2',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#9D4A2E'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C65D3B'}
+              >
+                Get Your First Customer This Week
+                <ArrowRight className="inline-block ml-2 w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Friction Reducer - Right Under CTA */}
+            <p 
+              className="text-sm mb-8"
+              style={{ color: '#636E72' }}
+            >
+              Free mockup in 24 hours · No payment to see it
+            </p>
+
+            {/* Payment Model - Clear Box */}
+            <div 
+              className="p-5 mb-6 border-l-4 bg-white/60"
+              style={{ borderColor: '#C65D3B' }}
+            >
+              <p 
+                className="text-base leading-relaxed mb-2"
+                style={{ color: '#2D3436' }}
+              >
+                <strong>Pay $200 today</strong> (covers domain + hosting setup)
+              </p>
+              <p 
+                className="text-base leading-relaxed mb-2"
+                style={{ color: '#2D3436' }}
+              >
+                <strong>Pay $700 later</strong> after your site gets 20 click-to-calls*
+              </p>
+              <p 
+                className="text-sm mt-3 pt-3 border-t"
+                style={{ 
+                  color: '#636E72',
+                  borderColor: '#E8DFD1'
+                }}
+              >
+                *Click-to-call = someone clicked your phone or WhatsApp button. 
+                If you don&apos;t get 20 clicks in 60 days, you owe nothing more.
+              </p>
+            </div>
+
+            {/* Honest Launch Message */}
+            <div 
+              className="p-4 bg-white/40 rounded"
+              style={{ border: '1px solid #E8DFD1' }}
+            >
+              <p 
+                className="text-sm leading-relaxed"
+                style={{ color: '#636E72' }}
+              >
+                <strong style={{ color: '#2D3436' }}>Just launching in Australia.</strong> First 10 customers get this deal. 
+                Why the performance-based pricing? I need real examples. You need customers. Fair trade.
+              </p>
+            </div>
+
           </div>
 
-          {/* Right Column - Visual Proof */}
-          <div>
-            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-emerald-200/60 border border-white/90 hover:shadow-emerald-300/70 transition-shadow duration-500">
-              {/* Refined gradient border effect */}
-              <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-400/30 via-green-300/20 to-amber-400/25 rounded-3xl blur-2xl"></div>
+          {/* Right Column - Visual Proof (Aligned to Top) */}
+<div className="lg:sticky lg:top-0 self-start">
+    <div className="bg-white p-6 rounded-lg border border-[#E8DFD1] shadow-sm">
+              {/* Search Bar */}
+              <div 
+                className="flex items-center gap-2 px-3 py-2 mb-3 rounded border"
+                style={{ 
+                  backgroundColor: '#FAF7F2',
+                  borderColor: '#E8DFD1'
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#636E72" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
+                </svg>
+                <span className="text-sm" style={{ color: '#636E72' }}>
+                  plumber near me
+                </span>
+              </div>
 
-              <GoogleSearchMockup searchQuery="plumber near me" />
+              {/* Competitor 1 - Faded */}
+              <div className="px-3 py-2 mb-2 rounded opacity-50" style={{ backgroundColor: '#FAF7F2' }}>
+                <p className="text-sm font-semibold text-blue-600 line-through mb-0.5">
+                  Joe&apos;s Plumbing
+                </p>
+                <p className="text-xs" style={{ color: '#636E72' }}>
+                  His phone&apos;s ringing
+                </p>
+              </div>
+
+              {/* Your Site - Highlighted */}
+              <div 
+                className="p-4 rounded border-2 mb-2"
+                style={{ 
+                  backgroundColor: '#FFFEFB',
+                  borderColor: '#C65D3B'
+                }}
+              >
+                <p className="text-base font-bold text-blue-600 mb-1">
+                  Your Business Here
+                </p>
+                <p className="text-xs mb-3" style={{ color: '#7A9B8E' }}>
+                  yoursite.com.au
+                </p>
+                
+                <p className="text-sm mb-3 leading-relaxed" style={{ color: '#2D3436' }}>
+                  Emergency plumber. Same day service. All suburbs. Call now.
+                </p>
+                
+                <div className="flex gap-2">
+                  <button
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-semibold rounded"
+                    style={{
+                      backgroundColor: '#FAF7F2',
+                      border: '2px solid #C65D3B',
+                      color: '#2D3436'
+                    }}
+                  >
+                    <Phone className="w-4 h-4" />
+                    Call
+                  </button>
+                  <button
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-semibold rounded"
+                    style={{
+                      backgroundColor: '#FAF7F2',
+                      border: '2px solid #C65D3B',
+                      color: '#2D3436'
+                    }}
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Message
+                  </button>
+                </div>
+              </div>
+
+              {/* Competitor 2 - Faded */}
+              <div className="px-3 py-2 rounded opacity-50" style={{ backgroundColor: '#FAF7F2' }}>
+                <p className="text-sm font-semibold text-blue-600 line-through mb-0.5">
+                  Smith Plumbing
+                </p>
+                <p className="text-xs" style={{ color: '#636E72' }}>
+                  Yours isn&apos;t
+                </p>
+              </div>
+
+              {/* Bottom Line */}
+              <div className="mt-4 pt-4 border-t text-center" style={{ borderColor: '#E8DFD1' }}>
+                <p className="text-sm font-semibold" style={{ color: '#2D3436' }}>
+                  Top spot = more calls = more money
+                </p>
+              </div>
+            </div>
+
+            {/* Small Trust Signal Below Mockup (Desktop Only) */}
+            <div className="hidden lg:block mt-4">
+              <p className="text-xs text-center" style={{ color: '#636E72' }}>
+                Works on any phone · Loads fast · Easy to call
+              </p>
             </div>
           </div>
+
         </div>
+
       </div>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cal+Sans:wght@400;600;700&family=Space+Grotesk:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+        * {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
 
-        /* Accessibility: Respect prefers-reduced-motion */
+        h1, h2, h3 {
+          font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        *:focus-visible {
+          outline: 3px solid #C65D3B;
+          outline-offset: 2px;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          *, *::before, *::after {
+          *, html {
             animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
           }
         }
 
-        /* Improved focus visibility */
-        *:focus-visible {
-          outline: 2px solid #10b981;
-          outline-offset: 2px;
+        @media (max-width: 640px) {
+          button, a {
+            min-height: 44px;
+          }
+        }
+
+        /* Ensure right column doesn't get too tall and create awkward spacing */
+        @media (min-width: 1024px) {
+          .lg\\:sticky {
+            position: sticky;
+            top: 2rem;
+          }
         }
       `}</style>
     </section>
