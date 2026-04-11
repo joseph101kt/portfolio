@@ -11,6 +11,7 @@ import { GameCardRevealSequence } from "@/components/media/GameCardReveal";
 import { SidewaysScrollGallery } from "@/components/media/SidewaysScrollGallery";
 import { StackedCardGallery } from "@/components/media/StackedCardGallery";
 import demoImages, { demoImage } from "@/lib/images";
+import CertificatesSection from "@/components/CertificatesSection";
 
 export default function Home() {
   
@@ -47,6 +48,8 @@ export default function Home() {
 
         {/* 4. About — you're building this */}
         <AboutSection />
+
+        <CertificatesSection />
 
         {/* 5. Contact + Footer */}
         <ContactSection />

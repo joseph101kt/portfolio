@@ -131,7 +131,11 @@ export const ExplosionButton: React.FC<ExplosionButtonProps> = ({ useGrid }) => 
       onClick={() => {
         timeRef.current = 0;
         setPhase("exploding");
-        setTimeout(() => router.push("/work"), 800);
+          setTimeout(() => {
+    document.getElementById("work")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, 800);
       }}
       // 2. Map Button Colors to the Theme
       style={{ 
