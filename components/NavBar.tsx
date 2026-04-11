@@ -108,7 +108,7 @@ export default function Navbar() {
 
             {/* Resume */}
             <a
-              href="/resume.pdf"
+              href="/joseph_kakkassery_resume.pdf"
               download
               className="hidden sm:inline-block text-[11px] font-mono text-violet-400 border border-violet-500/50 rounded-full px-3.5 py-1.5 transition hover:bg-violet-500/10 whitespace-nowrap"
             >

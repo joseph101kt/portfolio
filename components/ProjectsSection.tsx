@@ -110,25 +110,25 @@ function ProjectCard({ item, onOpen }: { item: ProjectItem; onOpen: () => void }
   return (
     <div
       onClick={onOpen}
-      className="card-hover reveal flex cursor-pointer flex-col gap-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-5 py-5"
+      className="group reveal flex cursor-pointer flex-col gap-3 rounded-xl border border-white/10 bg-[#050812]/60 px-5 py-5 backdrop-blur-sm transition-colors hover:border-[#c27aff]/30"
     >
       {/* Icon */}
-      <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-[rgba(139,92,246,0.22)] bg-[rgba(139,92,246,0.1)] text-lg">
+      <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-[#c27aff]/20 bg-[#c27aff]/10 text-[15px] text-[#c27aff]">
         {item.icon}
       </div>
 
       <div className="flex-1">
         <div className="mb-1 flex items-center gap-2">
-          <h3 className="font-[var(--font-display)] text-[15px] font-bold">
+          <h3 className="font-[var(--font-display)] text-[15px] font-semibold text-white">
             {item.name}
           </h3>
         </div>
 
-        <span className="inline-block rounded border border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-1.5 py-[2px] font-[var(--font-mono)] text-[9px] text-[var(--txt-tertiary)]">
+        <span className="inline-block rounded border border-white/10 px-1.5 py-[2px] font-[var(--font-mono)] text-[9px] text-white/50">
           {item.type}
         </span>
 
-        <p className="mt-2 text-[12px] leading-[1.6] text-[var(--txt-secondary)]">
+        <p className="mt-2 text-[12px] leading-[1.6] text-white/70">
           {item.tagline}
         </p>
       </div>
@@ -136,12 +136,15 @@ function ProjectCard({ item, onOpen }: { item: ProjectItem; onOpen: () => void }
       {/* Stack */}
       <div className="flex flex-wrap gap-1">
         {item.stack.slice(0, 4).map((t) => (
-          <span key={t} className="tech-tag">
+          <span
+            key={t}
+            className="rounded border border-white/10 px-1.5 py-[2px] text-[10px] text-white/60"
+          >
             {t}
           </span>
         ))}
         {item.stack.length > 4 && (
-          <span className="tech-tag border-[var(--border-subtle)] bg-transparent text-[var(--txt-tertiary)]">
+          <span className="rounded border border-white/10 px-1.5 py-[2px] text-[10px] text-white/40">
             +{item.stack.length - 4}
           </span>
         )}
@@ -150,19 +153,21 @@ function ProjectCard({ item, onOpen }: { item: ProjectItem; onOpen: () => void }
       {/* Links */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex items-center justify-between"
+        className="flex items-center justify-between pt-1"
       >
         <div className="flex gap-1.5">
           {item.links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-[rgba(139,92,246,0.3)] px-2.5 py-1 font-[var(--font-mono)] text-[10px] text-[var(--v400)] transition hover:bg-[rgba(139,92,246,0.1)]"
-            >
-              {l.label}
-            </a>
+            l.label && (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[#c27aff]/30 px-2.5 py-1 font-[var(--font-mono)] text-[10px] text-[#c27aff]/80 hover:text-[#c27aff]"
+              >
+                {l.label}
+              </a>
+            )
           ))}
         </div>
 
@@ -171,7 +176,7 @@ function ProjectCard({ item, onOpen }: { item: ProjectItem; onOpen: () => void }
             e.stopPropagation();
             onOpen();
           }}
-          className="font-[var(--font-mono)] text-[10px] text-[var(--txt-tertiary)] transition-colors hover:text-[var(--v400)]"
+          className="font-[var(--font-mono)] text-[10px] text-white/40 hover:text-[#c27aff]"
         >
           Details →
         </button>
@@ -311,10 +316,10 @@ export default function ProjectsSection() {
       <section
         id="projects"
         ref={sectionRef}
-        className="mx-auto max-w-[800px] px-6 py-20"
+        className="mx-auto bg-[#050812]  px-6 py-20"
       >
         <div className="reveal mb-9">
-          <div className="section-kicker">/ PROJECTS</div>
+          <div className="section-kicker">PROJECTS</div>
 
           <h2 className="mb-2 font-[var(--font-display)] text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold">
             Built for curiosity
@@ -325,7 +330,7 @@ export default function ProjectsSection() {
           </p>
         </div>
 
-        <div className="stagger-children grid gap-3.5 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+        <div className="stagger-children grid lg:grid-cols-2 md:grid-cols-2 gap-3.5 md:gap-10 lg:gap-9 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
           {PROJECTS.map((item) => (
             <ProjectCard
               key={item.id}

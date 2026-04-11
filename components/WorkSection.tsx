@@ -87,22 +87,22 @@ const WORK: WorkItem[] = [
 
 function WorkCard({ item, onOpen }: { item: WorkItem; onOpen: () => void }) {
   return (
-    <div className="card-hover reveal relative overflow-hidden mb-3.5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-7 pt-7 pb-6">
+    <div className="group reveal relative mb-3.5 rounded-2xl border border-white/10 bg-[#050812]/60 px-7 pt-7 pb-6 backdrop-blur-sm transition-all duration-200 hover:border-[#c27aff]/30">
 
       {/* Decorative number */}
-      <span className="pointer-events-none absolute top-3 right-5 select-none font-[var(--font-display)] text-[5rem] font-extrabold leading-none text-[rgba(109,40,217,0.1)]">
+      <span className="pointer-events-none absolute top-3 right-5 select-none font-[var(--font-display)] text-[5rem] font-extrabold leading-none text-white/[0.06]">
         {item.num}
       </span>
 
       {/* Header */}
       <div className="mb-3.5">
         {item.meta && (
-          <span className="mb-2 inline-block rounded border border-[var(--border-subtle)] px-2 py-[2px] font-[var(--font-mono)] text-[10px] text-[var(--txt-tertiary)]">
+          <span className="mb-2 inline-block rounded border border-white/10 px-2 py-[2px] font-[var(--font-mono)] text-[10px] text-white/50">
             {item.meta}
           </span>
         )}
 
-        <h3 className="mb-1 pr-20 font-[var(--font-display)] text-[19px] font-bold">
+        <h3 className="mb-1 pr-20 font-[var(--font-display)] text-[19px] font-bold text-white">
           {item.name}
         </h3>
 
@@ -114,7 +114,7 @@ function WorkCard({ item, onOpen }: { item: WorkItem; onOpen: () => void }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="font-[var(--font-mono)] text-[11px] text-[var(--v500)] transition-colors hover:text-[var(--v400)]"
+              className="font-[var(--font-mono)] text-[11px] text-[#c27aff]/80 hover:text-[#c27aff]"
             >
               {u.label}
             </a>
@@ -122,17 +122,20 @@ function WorkCard({ item, onOpen }: { item: WorkItem; onOpen: () => void }) {
         </div>
       </div>
 
-      <div className="mb-3.5 h-px bg-[var(--border-subtle)]" />
+      <div className="mb-3.5 h-px bg-white/10" />
 
       {/* Tagline */}
-      <p className="mb-3.5 text-[13px] leading-[1.65] text-[var(--txt-secondary)]">
+      <p className="mb-3.5 text-[13px] leading-[1.65] text-white/70">
         {item.tagline}
       </p>
 
       {/* Stack */}
       <div className="mb-4.5 flex flex-wrap gap-1.5">
         {item.stack.map((t) => (
-          <span key={t} className="tech-tag">
+          <span
+            key={t}
+            className="rounded-md border border-white/10 px-2 py-[3px] text-[11px] text-white/60"
+          >
             {t}
           </span>
         ))}
@@ -141,7 +144,7 @@ function WorkCard({ item, onOpen }: { item: WorkItem; onOpen: () => void }) {
       {/* CTA */}
       <button
         onClick={onOpen}
-        className="rounded-lg border border-[rgba(139,92,246,0.35)] bg-[rgba(139,92,246,0.1)] px-4 py-2 text-[13px] font-medium text-[var(--v400)] transition-all hover:bg-[rgba(139,92,246,0.18)] hover:text-[#F0EEFF]"
+        className="rounded-lg border border-[#c27aff]/30 px-4 py-2 text-[13px] font-medium text-[#c27aff] transition-colors hover:bg-[#c27aff]/10 hover:text-white"
       >
         View Case Study →
       </button>
@@ -287,16 +290,16 @@ export default function WorkSection() {
       <section
         id="work"
         ref={sectionRef}
-        className="mx-auto max-w-[800px] px-6 py-20"
+        className="mx-auto bg-[#050812]  px-6 py-20"
       >
         <div className="reveal mb-10">
-          <div className="section-kicker">/ WORK</div>
+          <div className="section-kicker">WORK</div>
 
-          <h2 className="mb-2 font-[var(--font-display)] text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold">
+          <h2 className="mb-2 text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold">
             Things I`ve shipped
           </h2>
 
-          <p className="text-[15px] leading-[1.6] text-[var(--txt-secondary)]">
+          <p className="text-[15px] leading-[1.6] text-(--txt-secondary)">
             Client projects — live, real, used by people.
           </p>
         </div>

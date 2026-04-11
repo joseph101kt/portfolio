@@ -31,7 +31,7 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative mx-auto max-w-[800px] px-6 pt-20 pb-16"
+      className="relative mx-auto bg-gray-950 px-6 pt-20 pb-16"
     >
       {/* Top rule */}
       <div className="mb-16 h-px bg-[var(--border-subtle)]" />
@@ -67,7 +67,7 @@ export default function ContactSection() {
 
         {/* Resume */}
         <a
-          href="/resume.pdf"
+          href="/joseph_kakkassery_resume.pdf"
           download
           className="inline-flex items-center gap-2 rounded-lg border border-[rgba(139,92,246,0.35)] bg-[rgba(139,92,246,0.08)] px-5 py-3 text-[13px] font-medium text-[var(--v400)] transition-all hover:border-[rgba(139,92,246,0.6)] hover:bg-[rgba(139,92,246,0.16)]"
         >

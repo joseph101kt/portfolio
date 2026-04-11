@@ -4,6 +4,8 @@ import WorkSection     from '@/components/WorkSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection  from '@/components/ContactSection';
 
+import Image from "next/image";
+
 
 import { GameCardRevealSequence } from "@/components/media/GameCardReveal";
 import { SidewaysScrollGallery } from "@/components/media/SidewaysScrollGallery";
@@ -14,7 +16,7 @@ export default function Home() {
   
 
   return (
-          <main>
+        <main className="bg-[#050812]">
         {/* 1. Hero — replace with your existing component */}
         <HeroSection />
 
@@ -44,7 +46,7 @@ export default function Home() {
         </div>
 
         {/* 4. About — you're building this */}
-        <AboutPlaceholder />
+        <AboutSection />
 
         {/* 5. Contact + Footer */}
         <ContactSection />
@@ -66,27 +68,71 @@ export function cards(){
 
 
 // ── About placeholder — you're building this yourself ───────────────────────
-function AboutPlaceholder() {
+function AboutSection() {
   return (
     <section
       id="about"
-      style={{
-        padding: '80px 24px',
-        maxWidth: 800,
-        margin: '0 auto',
-        minHeight: 320,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        border: '0.5px dashed var(--border-subtle)',
-        borderRadius: 16,
-      }}
+      className="max-w-5xl bg-[#050812] mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center"
     >
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--txt-tertiary)' }}>
-        / about — building this yourself
-      </p>
+{/* LEFT: Visual */}
+<div className="flex flex-col items-center md:items-start gap-4">
+    <Image
+      src="/avatar.jpg"
+      width={100}
+      height={50}
+      alt="Avatar"
+      className="h-full rounded-2xl w-full object-cover"
+    />
+</div>
+      {/* RIGHT: Content */}
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-4xl font-semibold leading-tight">
+          Full-stack developer building production-grade applications
+        </h2>
+
+        <p className="text-neutral-400 leading-relaxed">
+          I build real-world web and cross-platform apps using Next.js, React Native,
+          and Supabase. My work spans backend systems, real-time features, and
+          performance-focused frontend experiences.
+        </p>
+
+        <p className="text-neutral-400 leading-relaxed">
+          Beyond engineering, I focus on building products that actually grow—
+          applying SEO and acquisition strategies so what I build reaches users.
+        </p>
+
+        {/* Proof */}
+        <ul className="text-sm text-neutral-300 space-y-2">
+          <li>• Shipped production apps for real clients</li>
+          <li>• Built real-time chat + video systems</li>
+          <li>• Designed AI-powered resume parsing pipelines</li>
+          <li>• SEO-first architecture for scalable products</li>
+        </ul>
+
+        {/* Tech */}
+        <div className="flex flex-wrap gap-2 text-xs text-neutral-400">
+          {[
+            "Next.js",
+            "React Native",
+            "Supabase",
+            "PostgreSQL",
+            "TypeScript",
+            "Tailwind",
+            "LiveKit",
+            "Gemini API",
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="px-3 py-1 border border-neutral-700 rounded-full"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
-
 /* ─── Page ───────────────────────────────────────────── */
 
 
