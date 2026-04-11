@@ -7,19 +7,21 @@ import { useTheme } from "./HeroThemeContext";
 const DESIGN_CONFIG = {
   // Text sizes (responsive)
 fontSize: {
-  sm: 'text-5xl',           // default mobile
-  md: 'md:text-6xl',        // tablet
-  lg: 'lg:text-7xl',        // desktop
+  sm: 'text-5xl',           
+  md: 'md:text-6xl',        
+  lg: 'lg:text-8xl',        
 },
+
 taglineSize: {
-  sm: 'text-md',
-  md: 'md:text-md',
-  lg: 'lg:text-lg',
+  sm: 'text-md',            
+  md: 'md:text-md',         
+  lg: 'lg:text-lg',         
 },
+
 subTaglineSize: {
-  sm: 'text-md',
-  md: 'md:text-sm',
-  lg: 'lg:text-md',
+  sm: 'text-md',            
+  md: 'md:text-sm',       
+  lg: 'lg:text-md',         
 },
 
   
