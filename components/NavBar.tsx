@@ -128,34 +128,66 @@ export default function Navbar() {
       </header>
 
       {/* ── Mobile Drawer ── */}
-      {mobileOpen && (
-        <div
-          onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm"
-        >
-          <div
-            onClick={e => e.stopPropagation()}
+{mobileOpen && (
+  <div
+    onClick={() => setMobileOpen(false)}
+    className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md"
+  >
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="
+        absolute inset-x-4 top-20
+        rounded-2xl border border-white/10
+        bg-[#0f0f1a]/80 backdrop-blur-xl
+        shadow-[0_20px_60px_rgba(0,0,0,0.6)]
+        p-6 flex flex-col gap-6
+
+        animate-in fade-in zoom-in-95 duration-300
+      "
+    >
+      
+      {/* Links */}
+      <div className="flex flex-col gap-4">
+        {NAV_LINKS.map(({ label, id }, i) => (
+          <button
+            key={id}
+            onClick={() => scrollTo(id)}
             className="
-              absolute right-0 top-0 h-screen w-[70vw] max-w-[300px]
-              bg-zinc-900 border-l border-zinc-800
-              px-7 pt-20 pb-7 flex flex-col gap-2
+              text-left text-xl font-semibold
+              text-zinc-300 hover:text-white
+              transition-all duration-300
+
+              hover:translate-x-1
             "
+            style={{
+              animationDelay: `${i * 40}ms`
+            }}
           >
-            {NAV_LINKS.map(({ label, id }) => (
-              <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className="
-                  text-left text-2xl font-bold text-white
-                  py-3 border-b border-zinc-800
-                "
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-white/10" />
+
+      {/* Resume */}
+      <a
+        href="/resume.pdf"
+        download
+        className="
+          text-center text-sm font-mono
+          text-violet-400 border border-violet-500/40
+          rounded-full py-2.5
+          hover:bg-violet-500/10 transition
+        "
+      >
+        Download Resume ↓
+      </a>
+
+    </div>
+  </div>
+)}
     </>
   );
 }

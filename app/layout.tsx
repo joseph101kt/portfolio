@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
 import Navbar from "@/components/NavBar";
+import ScrollTopFAB from "@/components/ScrollTopFab";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Navbar/>
         {children}
         <WhatsAppFAB />
+        <ScrollTopFAB />
       </body>
     </html>
   );
