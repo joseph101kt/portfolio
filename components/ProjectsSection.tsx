@@ -51,7 +51,9 @@ const PROJECTS: ProjectItem[] = [
     type:    'Web + Mobile',
     tagline: 'Cross-platform app with real-time chat, live video interviews, and AI-powered resume parsing.',
     stack:   ['React Native', 'Expo Router', 'Supabase', 'LiveKit', 'Gemini API', 'Tesseract.js', 'Mammoth', 'TypeScript'],
-    links:   [{ label: 'GitHub ↗', href: 'https://github.com/joseph101kt' }],
+    links:   [{ label: 'GitHub ↗', href: 'https://github.com/joseph101kt/job_portal_barabari' },
+              { label: 'Live App ↗', href: "https://joseph-k-mobile.expo.app/"}
+    ],
     overview:
       'A cross-platform job platform (web + Android) built with Expo Router in a monorepo structure and deployed to Vercel for web. Employers can post jobs, interview candidates live, and chat in real time. Candidates upload resumes that are automatically parsed into structured data.',
     highlights: [
