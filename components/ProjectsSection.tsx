@@ -22,6 +22,29 @@ interface ProjectItem {
 
 const PROJECTS: ProjectItem[] = [
   {
+    id:      'mern-visualizer',
+    icon:    '📊',
+    name:    'MERN MongoDB Visualizer',
+    type:    'Full-Stack System',
+    tagline: 'Custom-built MongoDB document visualizer with recursive UI logic and an Express-driven REST API.',
+    stack:   ['MongoDB', 'Express', 'React', 'Node.js', 'Mongoose', 'Lucide React', 'Tailwind CSS'],
+    links:   [
+      { label: 'Live App ↗', href: 'https://mern-stack-mongodb-database-visualize.netlify.app' },
+      { label: 'GitHub ↗', href: 'https://github.com/joseph101kt/MERN-Stack-Mongodb-database-Visualizer' }
+    ],
+    overview:
+      'A specialized data management tool designed to bridge the gap between raw MongoDB collections and intuitive administrative control. This project represents a major technical transition from BaaS (Supabase) to a self-managed MERN architecture, requiring manual schema definition and custom API routing.',
+    highlights: [
+      'Engineered Recursive React Components to visualize infinitely nested JSON data structures without hardcoded paths',
+      'Developed a robust RESTful API from scratch using Node/Express to handle GET, POST, PATCH, and DELETE operations',
+      'Implemented Mongoose Schema Validation to ensure data integrity and type safety in a schema-less NoSQL environment',
+      'Built a centralized Admin Panel featuring live inline DB editing and instant UI-to-database synchronization',
+      'Designed a high-performance product catalog with fuzzy search and category-based filtering against live MongoDB collections',
+      'Created a "Dark-Mode First" aesthetic utilizing Lucide icons and specialized Emerald/Zinc color palettes for a pro-developer feel',
+    ],
+    details: 'The transition from automated backend magic to "manual" Express routing was the primary focus. I solved the data hierarchy problem by building a recursive tree-view component that dynamically renders document keys and values regardless of depth.',
+  },
+  {
     id:      'job-portal',
     icon:    '⚙',
     name:    'Full-Stack Job Portal',

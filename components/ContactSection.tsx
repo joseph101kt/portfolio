@@ -78,7 +78,7 @@ export default function ContactSection() {
       {/* Footer */}
       <div className="border-t border-[var(--border-subtle)] pt-8 text-center">
         <p className="font-[var(--font-mono)] text-[11px] text-[var(--txt-tertiary)]">
-          josephk.netlify.app &nbsp;·&nbsp; Built with Next.js + Tailwind
+          <a href="https://josephkportfolio.netlify.app">josephkportfolio.netlify.app</a> &nbsp;·&nbsp; Built with Next.js + Tailwind
         </p>
       </div>
     </section>
