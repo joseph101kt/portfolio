@@ -45,7 +45,7 @@ export default function ContactSection() {
         </h2>
 
         <p className="mx-auto max-w-[420px] text-[14px] leading-[1.6] text-[var(--txt-secondary)]">
-          Open to freelance projects and internship opportunities.
+          Open to freelance projects and Job opportunities.
           If you have something in mind, reach out — I reply fast.
         </p>
       </div>

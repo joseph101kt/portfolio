@@ -1,238 +1,425 @@
 "use client";
+
 import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
+import GraphPaperGrid from './GraphPaperGrid';
 
 const HeroSection = () => {
   return (
-    <section 
-      className="min-h-screen flex items-center"
-      style={{ backgroundColor: '#F5EFE7' }}
+    <section
+      className="
+        relative flex items-center overflow-hidden
+        bg-[#F5EFE7]
+        dark:bg-[#0F1115]
+      "
+      style={{
+        minHeight: 'calc(100vh - 2rem)',
+        paddingTop: '2rem',
+      }}
     >
-      <div className="w-full max-w-6xl mx-auto px-5 py-5 sm:px-8">
+      <GraphPaperGrid />
 
-        {/* Hero Grid */}
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-20 items-start">
-          
-          {/* Left Column - The Message */}
-          <div className="max-w-2xl">
-            
-            {/* Kicker */}
-            <p 
-              className="text-sm font-bold mb-6 tracking-wider"
-              style={{ color: '#C65D3B' }}
+      <div className="relative z-20 w-full max-w-6xl mx-auto px-5 py-16 sm:px-8 lg:py-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
+
+          {/* Left Column */}
+          <div>
+
+            <p
+              className="
+                mb-6 text-sm font-bold tracking-wider
+                text-[#C65D3B]
+                dark:text-[#E58B6B]
+              "
             >
-              FOR PLUMBERS · SPARKIES · TRADIES IN AUSTRALIA
+              FOR PLUMBERS · ELECTRICIANS · BUILDERS ACROSS THE UK
             </p>
 
-            {/* Headline */}
-            <h1 
-              className="text-[2rem] sm:text-[2.75rem] lg:text-[3rem] leading-[1.05] mb-6"
-              style={{ 
+            <h1
+              className="
+                mb-6 leading-[1.05]
+                text-[2rem] sm:text-[2.75rem] lg:text-[3rem]
+                font-bold tracking-[-0.03em]
+                text-[#2D3436]
+                dark:text-[#F3F4F6]
+              "
+              style={{
                 fontFamily: 'Georgia, serif',
-                fontWeight: 700,
-                color: '#2D3436',
-                letterSpacing: '-0.03em'
               }}
             >
-              Losing $2,000/Week to Competitors on Google?
+              Losing £2,000/Week to Competitors on Google?
             </h1>
 
-            {/* The Agitation */}
-            <p 
-              className="text-lg sm:text-xl leading-normal mb-8"
-              style={{ color: '#636E72' }}
+            <p
+              className="
+                mb-8 text-lg leading-normal sm:text-xl
+                text-[#636E72]
+                dark:text-[#A1A1AA]
+              "
             >
-                When someone searches &quot;plumber near me&quot;&mdash;your competitor shows up first.
-                His phone&apos;s ringing. Yours isn&apos;t.
+              When someone searches &quot;plumber near me&quot;&mdash;your competitor shows up first.
+              His phone&apos;s ringing. Yours isn&apos;t.
             </p>
-            
-            <p 
-              className="text-lg sm:text-xl font-semibold mb-10"
-              style={{ color: '#2D3436' }}
+
+            <p
+              className="
+                mb-10 text-lg font-semibold sm:text-xl
+                text-[#2D3436]
+                dark:text-[#F3F4F6]
+              "
             >
               I fix that.
             </p>
 
-            {/* Single CTA */}
+            {/* CTA */}
             <div className="mb-6">
               <a
                 href="#contact"
-                className="inline-block px-10 py-4 text-lg font-semibold transition-colors duration-200 rounded"
+                className="
+                  inline-flex items-center rounded
+                  px-10 py-4 text-lg font-semibold
+                  text-[#FAF7F2]
+                  transition-all duration-200
+
+                  bg-[#C65D3B]
+                  hover:bg-[#9D4A2E]
+
+                  dark:bg-[#D97757]
+                  dark:hover:bg-[#B85F42]
+                  dark:shadow-[0_0_30px_rgba(217,119,87,0.18)]
+                "
                 style={{
-                  backgroundColor: '#C65D3B',
-                  color: '#FAF7F2',
                   textDecoration: 'none',
-                  fontWeight: 600,
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#9D4A2E'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#C65D3B'}
               >
-                Get Your First Customer This Week
-                <ArrowRight className="inline-block ml-2 w-5 h-5" />
+                Get Your Free Mockup
+                <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </div>
 
-            {/* Friction Reducer - Right Under CTA */}
-            <p 
-              className="text-sm mb-8"
-              style={{ color: '#636E72' }}
+            <p
+              className="
+                mb-8 text-sm
+                text-[#636E72]
+                dark:text-[#A1A1AA]
+              "
             >
               Free mockup in 24 hours · No payment to see it
             </p>
 
-            {/* Payment Model - Clear Box */}
-            <div 
-              className="p-5 mb-6 border-l-4 bg-white/60"
-              style={{ borderColor: '#C65D3B' }}
+            {/* Payment Model */}
+            <div
+              className="
+                mb-6 max-w-[32rem]
+                border-l-4 p-5
+
+                border-[#C65D3B]
+                bg-white/60
+
+                dark:border-[#D97757]
+                dark:bg-white/[0.04]
+                dark:backdrop-blur-sm
+              "
             >
-              <p 
-                className="text-base leading-relaxed mb-2"
-                style={{ color: '#2D3436' }}
+              <p
+                className="
+                  mb-3 text-base leading-relaxed
+                  text-[#2D3436]
+                  dark:text-[#E5E7EB]
+                "
               >
-                <strong>Pay $200 today</strong> (covers domain + hosting setup)
+                <strong>Pay £200 today</strong> — covers domain + hosting setup
               </p>
-              <p 
-                className="text-base leading-relaxed mb-2"
-                style={{ color: '#2D3436' }}
+
+              <p
+                className="
+                  text-base leading-relaxed
+                  text-[#2D3436]
+                  dark:text-[#E5E7EB]
+                "
               >
-                <strong>Pay $700 later</strong> after your site gets 20 click-to-calls*
+                <strong>Pay £300 later — only after it works.</strong> Once your site gets 10 click-to-calls.*
               </p>
-              <p 
-                className="text-sm mt-3 pt-3 border-t"
-                style={{ 
-                  color: '#636E72',
-                  borderColor: '#E8DFD1'
-                }}
+
+              <p
+                className="
+                  mt-4 border-t pt-4 text-sm
+                  border-[#E8DFD1]
+                  text-[#636E72]
+
+                  dark:border-white/10
+                  dark:text-[#A1A1AA]
+                "
               >
-                *Click-to-call = someone clicked your phone or WhatsApp button. 
-                If you don&apos;t get 20 clicks in 60 days, you owe nothing more.
+                *Click-to-call = someone clicked your phone or WhatsApp button.
+                Tracked via Microsoft Clarity, installed on your site at no cost.
+                No 20 clicks in 60 days? You owe nothing more.
               </p>
             </div>
 
             {/* Honest Launch Message */}
-            <div 
-              className="p-4 bg-white/40 rounded"
-              style={{ border: '1px solid #E8DFD1' }}
+            <div
+              className="
+                max-w-[32rem] rounded p-4
+
+                border border-[#E8DFD1]
+                bg-white/40
+
+                dark:border-white/10
+                dark:bg-white/[0.03]
+                dark:backdrop-blur-sm
+              "
             >
-              <p 
-                className="text-sm leading-relaxed"
-                style={{ color: '#636E72' }}
+              <p
+                className="
+                  text-sm leading-relaxed
+                  text-[#636E72]
+                  dark:text-[#A1A1AA]
+                "
               >
-                <strong style={{ color: '#2D3436' }}>Just launching in Australia.</strong> First 10 customers get this deal. 
-                Why the performance-based pricing? I need real examples. You need customers. Fair trade.
+                <strong
+                  className="
+                    text-[#2D3436]
+                    dark:text-[#F3F4F6]
+                  "
+                >
+                  Just launching in the UK.
+                </strong>{' '}
+                First 10 customers get this deal.
+                Why performance-based pricing? I need real examples.
+                You need customers. Fair trade.
               </p>
             </div>
-
           </div>
 
-          {/* Right Column - Visual Proof (Aligned to Top) */}
-<div className="lg:sticky lg:top-0 self-start">
-    <div className="bg-white p-6 rounded-lg border border-[#E8DFD1] shadow-sm">
+          {/* Right Column */}
+          <div
+            className="lg:sticky"
+            style={{
+              top: '6rem',
+              alignSelf: 'start',
+            }}
+          >
+            <div
+              className="
+                rounded-xl border p-6 shadow-sm
+
+                border-[#E8DFD1]
+                bg-white
+
+                dark:border-white/10
+                dark:bg-[#181C22]
+                dark:shadow-2xl
+              "
+            >
               {/* Search Bar */}
-              <div 
-                className="flex items-center gap-2 px-3 py-2 mb-3 rounded border"
-                style={{ 
-                  backgroundColor: '#FAF7F2',
-                  borderColor: '#E8DFD1'
-                }}
+              <div
+                className="
+                  mb-3 flex items-center gap-2 rounded border px-3 py-2
+
+                  border-[#E8DFD1]
+                  bg-[#FAF7F2]
+
+                  dark:border-white/10
+                  dark:bg-white/[0.03]
+                "
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#636E72" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="shrink-0"
+                >
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="8"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="text-[#636E72] dark:text-[#A1A1AA]"
+                  />
+                  <path
+                    d="m21 21-4.35-4.35"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="text-[#636E72] dark:text-[#A1A1AA]"
+                  />
                 </svg>
-                <span className="text-sm" style={{ color: '#636E72' }}>
+
+                <span
+                  className="
+                    text-sm
+                    text-[#636E72]
+                    dark:text-[#A1A1AA]
+                  "
+                >
                   plumber near me
                 </span>
               </div>
 
-              {/* Competitor 1 - Faded */}
-              <div className="px-3 py-2 mb-2 rounded opacity-50" style={{ backgroundColor: '#FAF7F2' }}>
-                <p className="text-sm font-semibold text-blue-600 line-through mb-0.5">
+              {/* Competitor 1 */}
+              <div
+                className="
+                  mb-2 rounded px-3 py-2 opacity-40
+
+                  bg-[#FAF7F2]
+
+                  dark:bg-white/[0.03]
+                "
+              >
+                <p className="mb-0.5 text-sm font-semibold text-blue-600 line-through">
                   Joe&apos;s Plumbing
                 </p>
-                <p className="text-xs" style={{ color: '#636E72' }}>
+
+                <p
+                  className="
+                    text-xs
+                    text-[#636E72]
+                    dark:text-[#A1A1AA]
+                  "
+                >
                   His phone&apos;s ringing
                 </p>
               </div>
 
-              {/* Your Site - Highlighted */}
-              <div 
-                className="p-4 rounded border-2 mb-2"
-                style={{ 
-                  backgroundColor: '#FFFEFB',
-                  borderColor: '#C65D3B'
-                }}
+              {/* Your Site */}
+              <div
+                className="
+                  mb-2 rounded border-2 p-4
+
+                  border-[#C65D3B]
+                  bg-[#FFFEFB]
+
+                  dark:border-[#D97757]
+                  dark:bg-[#20252D]
+                "
               >
-                <p className="text-base font-bold text-blue-600 mb-1">
+                <p className="mb-1 text-base font-bold text-blue-500">
                   Your Business Here
                 </p>
-                <p className="text-xs mb-3" style={{ color: '#7A9B8E' }}>
-                  yoursite.com.au
+
+                <p className="mb-3 text-xs text-[#7A9B8E] dark:text-[#8FB3A5]">
+                  yourname.co.uk
                 </p>
-                
-                <p className="text-sm mb-3 leading-relaxed" style={{ color: '#2D3436' }}>
-                  Emergency plumber. Same day service. All suburbs. Call now.
+
+                <p
+                  className="
+                    mb-3 text-sm leading-relaxed
+                    text-[#2D3436]
+                    dark:text-[#E5E7EB]
+                  "
+                >
+                  Emergency plumber. Same day service. All postcodes. Call now.
                 </p>
-                
+
                 <div className="flex gap-2">
                   <button
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-semibold rounded"
-                    style={{
-                      backgroundColor: '#FAF7F2',
-                      border: '2px solid #C65D3B',
-                      color: '#2D3436'
-                    }}
+                    className="
+                      flex-1 inline-flex items-center justify-center gap-1.5
+                      rounded px-3 py-2 text-sm font-semibold
+                      transition-colors
+
+                      border-2 border-[#C65D3B]
+                      bg-[#FAF7F2]
+                      text-[#2D3436]
+
+                      dark:border-[#D97757]
+                      dark:bg-[#181C22]
+                      dark:text-[#F3F4F6]
+                      dark:hover:bg-[#232933]
+                    "
                   >
-                    <Phone className="w-4 h-4" />
+                    <Phone className="h-4 w-4" />
                     Call
                   </button>
+
                   <button
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-semibold rounded"
-                    style={{
-                      backgroundColor: '#FAF7F2',
-                      border: '2px solid #C65D3B',
-                      color: '#2D3436'
-                    }}
+                    className="
+                      flex-1 inline-flex items-center justify-center gap-1.5
+                      rounded px-3 py-2 text-sm font-semibold
+                      transition-colors
+
+                      border-2 border-[#C65D3B]
+                      bg-[#FAF7F2]
+                      text-[#2D3436]
+
+                      dark:border-[#D97757]
+                      dark:bg-[#181C22]
+                      dark:text-[#F3F4F6]
+                      dark:hover:bg-[#232933]
+                    "
                   >
-                    <MessageCircle className="w-4 h-4" />
+                    <MessageCircle className="h-4 w-4" />
                     Message
                   </button>
                 </div>
               </div>
 
-              {/* Competitor 2 - Faded */}
-              <div className="px-3 py-2 rounded opacity-50" style={{ backgroundColor: '#FAF7F2' }}>
-                <p className="text-sm font-semibold text-blue-600 line-through mb-0.5">
+              {/* Competitor 2 */}
+              <div
+                className="
+                  rounded px-3 py-2 opacity-40
+
+                  bg-[#FAF7F2]
+
+                  dark:bg-white/[0.03]
+                "
+              >
+                <p className="mb-0.5 text-sm font-semibold text-blue-600 line-through">
                   Smith Plumbing
                 </p>
-                <p className="text-xs" style={{ color: '#636E72' }}>
+
+                <p
+                  className="
+                    text-xs
+                    text-[#636E72]
+                    dark:text-[#A1A1AA]
+                  "
+                >
                   Yours isn&apos;t
                 </p>
               </div>
 
-              {/* Bottom Line */}
-              <div className="mt-4 pt-4 border-t text-center" style={{ borderColor: '#E8DFD1' }}>
-                <p className="text-sm font-semibold" style={{ color: '#2D3436' }}>
+              <div
+                className="
+                  mt-4 border-t pt-4 text-center
+
+                  border-[#E8DFD1]
+
+                  dark:border-white/10
+                "
+              >
+                <p
+                  className="
+                    text-sm font-semibold
+                    text-[#2D3436]
+                    dark:text-[#F3F4F6]
+                  "
+                >
                   Top spot = more calls = more money
                 </p>
               </div>
             </div>
 
-            {/* Small Trust Signal Below Mockup (Desktop Only) */}
-            <div className="hidden lg:block mt-4">
-              <p className="text-xs text-center" style={{ color: '#636E72' }}>
+            <div className="mt-4 hidden lg:block">
+              <p
+                className="
+                  text-center text-xs
+                  text-[#636E72]
+                  dark:text-[#A1A1AA]
+                "
+              >
                 Works on any phone · Loads fast · Easy to call
               </p>
             </div>
           </div>
-
         </div>
-
       </div>
 
       <style>{`
         * {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         h1, h2, h3 {
@@ -259,14 +446,6 @@ const HeroSection = () => {
         @media (max-width: 640px) {
           button, a {
             min-height: 44px;
-          }
-        }
-
-        /* Ensure right column doesn't get too tall and create awkward spacing */
-        @media (min-width: 1024px) {
-          .lg\\:sticky {
-            position: sticky;
-            top: 2rem;
           }
         }
       `}</style>
