@@ -12,12 +12,17 @@ import { SidewaysScrollGallery } from "@/components/media/SidewaysScrollGallery"
 import { StackedCardGallery } from "@/components/media/StackedCardGallery";
 import demoImages, { demoImage } from "@/lib/images";
 import CertificatesSection from "@/components/CertificatesSection";
+import Navbar from "@/components/NavBar";
+import ScrollTopFAB from "@/components/ScrollTopFab";
+import WhatsAppFAB from "@/components/WhatsAppFAB";
 
 export default function Home() {
   
 
   return (
         <main className="bg-[#050812]">
+        <Navbar />
+
         {/* 1. Hero — replace with your existing component */}
         <HeroSection />
 
@@ -53,6 +58,8 @@ export default function Home() {
 
         {/* 5. Contact + Footer */}
         <ContactSection />
+        <WhatsAppFAB />
+        <ScrollTopFAB />
       </main>
   );
 }
