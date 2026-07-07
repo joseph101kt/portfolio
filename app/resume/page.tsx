@@ -25,6 +25,7 @@ import {
   Component,
   Youtube,
 } from "lucide-react";
+import { CSSProperties, ElementType, ReactNode } from "react";
 
 /**
  * Joseph Kakkassery — Resume, two printable A4 pages.
@@ -64,7 +65,7 @@ const display = { fontFamily: "'Bebas Neue', sans-serif" };
 
 // ---------- Icon matching for tags ----------
 
-function getTagIcon(name) {
+function getTagIcon(name: string) {
   const n = name.toLowerCase();
   if (n.includes("supabase") || n.includes("postgres") || n.includes("mongo")) return Database;
   if (n.includes("flutter") || n.includes("expo") || n.includes("react native") || n.includes("android")) return Smartphone;
@@ -79,7 +80,7 @@ function getTagIcon(name) {
   if (n.includes("seo")) return Search;
   if (n.includes("typescript")) return FileCode2;
   if (n.includes("react") || n.includes("next") || n.includes("vite")) return Component;
-  return null;
+  return undefined;
 }
 
 // ---------- Data ----------
@@ -230,7 +231,7 @@ const CERTIFICATIONS = [
 
 // ---------- Building blocks ----------
 
-function Eyebrow({ children }) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <p
       style={{ ...mono, color: T.mono, letterSpacing: "0.25em" }}
@@ -241,7 +242,15 @@ function Eyebrow({ children }) {
   );
 }
 
-function Heading({ children, size = "text-3xl" }) {
+interface HeadingProps {
+  children: ReactNode;
+  size?: string;
+}
+
+function Heading({
+  children,
+  size = "text-3xl",
+}: HeadingProps) {
   return (
     <h2 style={{ ...display, color: T.text, letterSpacing: "0.02em" }} className={`${size} leading-none mb-3`}>
       {children}
@@ -249,7 +258,18 @@ function Heading({ children, size = "text-3xl" }) {
   );
 }
 
-function SectionHead({ eyebrow, heading, size }) {
+interface SectionHeadProps {
+  eyebrow: ReactNode;
+  heading: ReactNode;
+  size?: string;
+}
+
+function SectionHead({
+  eyebrow,
+  heading,
+  size = "text-3xl",
+}: SectionHeadProps) {
+
   return (
     <div className="mb-4">
       <Eyebrow>{eyebrow}</Eyebrow>
@@ -262,7 +282,19 @@ function SectionHead({ eyebrow, heading, size }) {
  * Panel — use `muted` (not opacity!) to tone a card down. `muted` swaps in
  * explicit dimmer colors, so links inside stay clickable in a printed PDF.
  */
-function Panel({ className = "", style = {}, muted = false, children }) {
+interface PanelProps {
+  className?: string;
+  style?: CSSProperties;
+  muted?: boolean;
+  children: ReactNode;
+}
+
+function Panel({
+  className = "",
+  style = {},
+  muted = false,
+  children,
+}: PanelProps) {
   return (
     <div
       className={`rounded-lg border p-4 ${className}`}
@@ -287,7 +319,23 @@ function Panel({ className = "", style = {}, muted = false, children }) {
  *  - href: optional link — renders as <a> instead of <span>
  *  - small: optional bool — compact sizing
  */
-function Tag({ children, icon: Icon, color, reducedSaturation = false, href, small = false }) {
+interface TagProps {
+  children: ReactNode;
+  icon?: ElementType;
+  color?: string;
+  reducedSaturation?: boolean;
+  href?: string; // Optional
+  small?: boolean;
+}
+
+function Tag({
+  children,
+  icon: Icon,
+  color,
+  reducedSaturation = false,
+  href,
+  small = false,
+}: TagProps) {
   const filled = color === "primary" || color === "accent";
   const vividFill = color === "accent" ? T.accent2 : T.accent;
 
@@ -353,13 +401,30 @@ function StampQR() {
         <div className="relative w-full h-full">
             <a href="https://josephkportfolio.netlify.app/"><Image src="/qr_portfolio_page.png" alt="Portfolio QR Code" fill className="object-contain" priority /></a>
         </div>
-        <tag></tag>
         </div>
     </div>
   );
 }
 
-function FeaturedPanel({ data, badge }) {
+export interface FeaturedRole {
+  title: string;
+  org?: string;
+  period?: string;
+  stack: string[];
+  bullets: string[];
+  href?: string;
+  linkLabel?: string;
+}
+
+interface FeaturedPanelProps {
+  data: FeaturedRole;
+  badge?: ReactNode;
+}
+
+function FeaturedPanel({
+  data,
+  badge,
+}: FeaturedPanelProps) {
   return (
     <Panel>
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -635,7 +700,7 @@ function PageTwo() {
               style={{ ...display, color: "#05070d", letterSpacing: "0.01em" }}
               className="text-4xl leading-[0.95] mb-3 max-w-lg"
             >
-              LET'S SHIP SOMETHING THAT ACTUALLY MATTERS.
+              LET`S SHIP SOMETHING THAT ACTUALLY MATTERS.
             </h3>
             <div className="flex flex-wrap gap-2.5">
               <a
