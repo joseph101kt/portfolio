@@ -1,6 +1,11 @@
 import Image from "next/image";
 
+
 import {
+  BadgeDollarSign,
+  Code2,
+  BarChart3,
+  LineChart,
   Phone,
   Mail,
   Github,
@@ -145,10 +150,10 @@ const SKILL_GROUPS = [
 const FEATURED_ROLE = {
   title: "Full-Stack Web Developer",
   org: "SBMS — South India Bridal Makeover Studio",
-  period: "Aug 2024 – Jan 2025",
+  period: "Aug 2025 – Jan 2026",
   stack: ["Next.js", "Supabase", "Cloudinary", "PostgreSQL"],
   bullets: [
-    "Designed, built, and deployed two production sites end-to-end with no senior oversight — sbmsacademy.in and simabeautyexpo.com.",
+    "Designed, built, and deployed three production sites end-to-end with no senior oversight — sbmsacademy.in,  simabeautyexpo.com and beyondbeautynetwork.in .",
     "Owned the full event-registration pipeline: image upload → Cloudinary → instant PDF ticket → personalised email, live at real events.",
     "Built a reusable ticket/ID generator so non-technical staff could produce materials without a developer.",
     "Shipped internal dashboards for attendee management and event administration.",
@@ -157,9 +162,9 @@ const FEATURED_ROLE = {
 
 const OTHER_ROLES = [
   {
-    title: "Full-Stack Developer",
+    title: "Full-Stack Web App Developer",
     org: "Nazaria Collective",
-    period: "Jun 2025 – Present",
+    period: "Jun 2026 – Present",
     stack: ["Next.js 14", "Supabase", "Gemini API", "PostgreSQL"],
     desc: "Architecting a full LMS for a youth mentorship nonprofit — 4 roles, a 22-table schema with RLS, real-time chat, Google Meet scheduling, and a PRD used to onboard stakeholders.",
     toned: false,
@@ -167,7 +172,7 @@ const OTHER_ROLES = [
   {
     title: "Full-Stack Mobile Developer",
     org: "Raithan — Agri Marketplace",
-    period: "2025 – Present",
+    period: "May 2026 – June 2026",
     stack: ["Flutter", "Supabase", "PostGIS"],
     desc: "Scoped a maintenance contract into a full backend rebuild — PostGIS-based farmer-vendor matching, fixed a broken production seeder script.",
     toned: false,
@@ -178,7 +183,7 @@ const OTHER_ROLES = [
     period: "Retail client",
     stack: ["Next.js", "Cloudinary"],
     desc: "Product showcase for a real retail client (also worked there in-store), with slug routing, URL-driven filters, and a CRUD admin panel.",
-    toned: true,
+    toned: false,
     href: "https://anugrahachristianworld.in",
     linkLabel: "Live Website",
   },
@@ -207,7 +212,7 @@ const OTHER_PROJECTS = [
   {
     title: "Slimes vs Sorcerers",
     stack: ["Lua", "Love2D"],
-    desc: "Dash/projectile mechanics with tween-based animation, 6 enemy slime types with unique behaviours, wave-based spawning, full HUD, and a lootdrop system.",
+    desc: "Created a feature-complete Lua/LÖVE2D action game with fluid combat, modular enemy objects, adaptive wave spawning, pathfinding, polished UI, and collectible health/XP loot systems.",
     href: "https://youtube.com/watch?v=x14loV1b6fc",
     linkLabel: "Demo video",
     linkIcon: Youtube,
@@ -220,14 +225,52 @@ const EDUCATION = [
   { school: "St. Francis De Sales High School", detail: "SSC — 10/10 GPA", period: "2012–21" },
 ];
 
-const CERTIFICATIONS = [
-  "CS50x",
-  "CS50P",
-  "CS50 SQL",
-  "Google Digital Marketing",
-  "Google Ads Measurement",
-  "HubSpot SEO",
-];
+
+
+export const CERTIFICATIONS = [
+  {
+    name: "CS50x",
+    href: "https://certificates.cs50.io/844ee161-92e1-42b6-adfb-05121360edc8.pdf?size=letter",
+    icon: GraduationCap,
+    color: "accent",
+  },
+  {
+    name: "CS50P",
+    href: "https://certificates.cs50.io/f0f8d9db-7cdd-45ba-9ad7-d53816e65398.pdf?size=letter",
+    icon: Code2,
+    color: "accent",
+  },
+  {
+    name: "CS50 SQL",
+    href: "https://certificates.cs50.io/8d6c85a6-877b-4487-8128-b8ef961e0341.pdf?size=letter",
+    icon: Database,
+    color: "accent",
+  },
+  {
+    name: "Google Digital Marketing",
+    href: "https://skillshop.credential.net/3b3bcd09-aad8-41f4-88a8-88de610d3339#acc.EA4L2xus",
+    icon: BarChart3,
+    color: "",
+  },
+  {
+    name: "Google Ads Measurement",
+    href: "https://skillshop.credential.net/3b3bcd09-aad8-41f4-88a8-88de610d3339#acc.EA4L2xus",
+    icon: LineChart,
+    color: "",
+  },
+  {
+    name: "HubSpot SEO",
+    href: "https://drive.google.com/file/d/1kBRpp72N0HwOqH0eux2Ntq9VBrkA_2u9/view",
+    icon: Search,
+    color: "",
+  },
+    {
+    name: "Paid Ads",
+    href: "http://drive.google.com/file/d/1q6_YfBcIpnPk3WjkE2wo8MFLK33jM8LD/view",
+    icon: BadgeDollarSign,
+    color: "",
+  },
+] as const;
 
 // ---------- Building blocks ----------
 
@@ -324,7 +367,7 @@ interface TagProps {
   icon?: ElementType;
   color?: string;
   reducedSaturation?: boolean;
-  href?: string; // Optional
+  href?: string; 
   small?: boolean;
 }
 
@@ -669,10 +712,16 @@ function PageTwo() {
                 Certifications
               </span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              {CERTIFICATIONS.map((c) => (
-                <Tag key={c} small>
-                  {c}
+            <div className="flex flex-wrap gap-2">
+              {CERTIFICATIONS.map((cert) => (
+                <Tag
+                  key={cert.name}
+                  href={cert.href}
+                  icon={cert.icon}
+                  color={cert.color}
+                  small
+                >
+                  {cert.name}
                 </Tag>
               ))}
             </div>
