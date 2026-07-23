@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+
+
 const NAV_LINKS = [
   { label: 'Work', id: 'work' },
   { label: 'Projects', id: 'projects' },
@@ -108,11 +110,10 @@ export default function Navbar() {
 
             {/* Resume */}
             <a
-              href="/joseph_kakkassery_resume.pdf"
-              download
+              href="/resume"
               className="hidden sm:inline-block text-[11px] font-mono text-violet-400 border border-violet-500/50 rounded-full px-3.5 py-1.5 transition hover:bg-violet-500/10 whitespace-nowrap"
             >
-              Resume ↓
+              View Resume
             </a>
 
             {/* Hamburger */}
@@ -173,8 +174,7 @@ export default function Navbar() {
 
       {/* Resume */}
       <a
-        href="/resume.pdf"
-        download
+        href="/resume"
         className="
           text-center text-sm font-mono
           text-violet-400 border border-violet-500/40
@@ -182,7 +182,7 @@ export default function Navbar() {
           hover:bg-violet-500/10 transition
         "
       >
-        Download Resume ↓
+        View Resume
       </a>
 
     </div>
