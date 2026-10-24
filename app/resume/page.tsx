@@ -118,7 +118,7 @@ export const CONTACTS: ContactItem[] = [
   { icon: Phone, label: "+91 93970 82746", href: "tel:+919397082746" },
   { icon: Mail, label: "joseph101kt@gmail.com", href: "mailto:joseph101kt@gmail.com" },
   { icon: Github, label: "github", href: "https://github.com/joseph101kt" },
-  { icon: Linkedin, label: "linkedin", href: "https://linkedin.com/in/joseph-kakkassery" },
+  { icon: Linkedin, label: "linkedin", href: "https://www.linkedin.com/in/joseph--kakkassery/" },
   { icon: ExternalLink, label: "Portfolio", href: PORTFOLIO_URL },
 ];
 
